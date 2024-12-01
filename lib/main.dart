@@ -4,29 +4,28 @@ import 'dart:async' show Completer;
 import 'dart:math' show min, Random, sin, cos;
 import 'dart:typed_data' show Uint8List, BytesBuilder;
 
-import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dropzone/flutter_dropzone.dart';
+
+import 'src/rust/frb_generated.dart';
+import 'models/geometry.dart' show Circle;
+
 
 final dateTimeNow = DateTime.now().toString();
 
 final objects = [
   Object("0", "folder", 0, "dir", dateTimeNow),
-  Object("1", "loler.txt", 123, "file", dateTimeNow),
-  Object("2", "foo.jpg", 53453, "file", dateTimeNow),
-  Object("3", "keker.exe", 256, "file", dateTimeNow),
-  Object("4", "bar.bat", 53453, "file", dateTimeNow),
-  Object("4", "bar.bat", 53453, "file", dateTimeNow),
-  Object("4", "bar.bat", 53453, "file", dateTimeNow),
-  Object("4", "bar.bat", 53453, "file", dateTimeNow),
-  Object("4", "bar.bat", 53453, "file", dateTimeNow),
-  Object("4", "bar.bat", 53453, "file", dateTimeNow),
-  Object("4", "bar.bat", 53453, "file", dateTimeNow),
-  Object("5", "loooooooooooooooooooooool.bat", 53453, "file", dateTimeNow),
+  Object("1", "file1.exe", 123, "file", dateTimeNow),
+  Object("2", "file2.exe", 456, "file", dateTimeNow),
 ];
 
 final List<Object> items = objects;
 
-void main() => runApp(const MainApp());
+
+void main() async {
+  await RustLib.init();
+  return runApp(const MainApp());
+}
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -45,14 +44,7 @@ class Object {
   Object(this.id, this.name, this.size, this.type, this.createdAt);
 }
 
-class Circle {
-  final double x;
-  final double y;
-  final double r;
-
-  Circle(this.x, this.y, this.r);
-}
-
+// MAIN
 Offset pointOnCircle(Circle circle) {
   final angle = Random().nextDouble() * 20;
   final k = Random().nextDouble() + 1.5;

@@ -1,16 +1,14 @@
-# flutter_application_1
+# Flaxum Web
 
-A new Flutter project.
+Запуск проекта при помощи 
 
-## Getting Started
+```sh
+flutter run --web-header=Cross-Origin-Opener-Policy=same-origin --web-header=Cross-Origin-Embedder-Policy=require-corp
+```
 
-This project is a starting point for a Flutter application.
+Использование генерации от rust_flutter_bridge
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```sh
+flutter_rust_bridge_codegen generate --watch
+flutter_rust_bridge_codegen build-web
+```
