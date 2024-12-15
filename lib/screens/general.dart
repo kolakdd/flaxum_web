@@ -7,6 +7,9 @@ import 'general_child/file_control_buttons.dart';
 import 'general_child/graph_objects.dart';
 import 'package:dio/dio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:provider/provider.dart';
+import '../providers/object_provider.dart';
+
 
 Future<List<Object_>> getOwnObjects(BuildContext context) async {
   final response = await dio_unauthorized.get('/object/own/list',
@@ -15,6 +18,7 @@ Future<List<Object_>> getOwnObjects(BuildContext context) async {
       }));
   if (response.statusCode == 200) {
     final result = GetOwnObjectsResponse.fromJson(response.data);
+    Provider.of<ObjectProvider>(context, listen: false).updateData(result.data);
     return result.data;
   } else if (response.statusCode == 401) {
     Navigator.of(context).pushReplacementNamed('/auth');
@@ -67,8 +71,6 @@ class _MainApp extends State<MainApp> {
                           } else if (snapshot.hasError) {
                             return Text('ERROR:  ${snapshot.error}');
                           }
-
-                          // By default, show a loading spinner.
                           return Scaffold(
                               body: Center(
                             child: LoadingAnimationWidget.discreteCircle(
@@ -78,10 +80,6 @@ class _MainApp extends State<MainApp> {
                           ));
                         },
                       ),
-                      // child: Text("pricol"),
-                      // Container(
-                      //     color: const Color.fromARGB(255, 54, 244, 168),
-                      //     child: objectListWidget(context)),
                     ),
                     // визуальное файловое пространство
                     Expanded(
@@ -90,7 +88,7 @@ class _MainApp extends State<MainApp> {
                         color: const Color.fromARGB(255, 202, 204, 87),
                         child: Stack(
                           children: [
-                            for (var object in objects)
+                            for (var object in Provider.of<ObjectProvider>(context).data)
                               ObjectGraphStateful(object: object),
                           ],
                         ),

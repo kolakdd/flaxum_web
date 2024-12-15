@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'dart:html';
 import '../dio_client.dart' show dio_unauthorized;
+import 'package:provider/provider.dart';
+import '../providers/object_provider.dart';
 
 class LoadAuthScreen extends StatelessWidget {
   const LoadAuthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ObjectProvider>(context);
+
     final _formKey = GlobalKey<FormState>();
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
