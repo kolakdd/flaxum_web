@@ -4,12 +4,6 @@ import '../../models/object_.dart';
 import '../../utils/cicle_calc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-const String assetName = 'assets/folder.svg';
-final Widget svg = SvgPicture.asset(
-  assetName,
-  semanticsLabel: 'Dart Logo',
-);
-
 class ObjectGraphStateful extends StatefulWidget {
   const ObjectGraphStateful({super.key, required Object_ object})
       : _object = object;

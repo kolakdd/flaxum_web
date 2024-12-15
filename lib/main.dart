@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ContextProvider()),
       ],
       child: MaterialApp(
-          title: 'flaxum_fileshare',
+          title: 'Flaxum',
           home: const MainApp(),
           initialRoute: "/objects",
           routes: <String, WidgetBuilder>{

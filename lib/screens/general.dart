@@ -51,7 +51,6 @@ class _MainApp extends State<MainApp> {
   Widget build(BuildContext context) {
     final cookie = getTokenFromCookie();
     if (cookie != null) {
-      print("pricol");
       return Scaffold(
           backgroundColor: Color.fromARGB(255, 244, 244, 244),
           appBar: AppBar(
