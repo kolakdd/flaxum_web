@@ -3,9 +3,6 @@ import 'dart:html';
 
 String? getTokenFromCookie() {
   final cookie = document.cookie!;
-  print("get cookie ");
-  print(cookie);
-
   if (cookie.isNotEmpty) {
     final entity = cookie.split("; ").map((item) {
       final split = item.split("=");

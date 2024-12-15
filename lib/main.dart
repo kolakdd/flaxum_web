@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           routes: <String, WidgetBuilder>{
             '/objects': (context) => const MainApp(),
             '/auth': (context) => LoadAuthScreen(),
-            '/register': (context) => const RegisterRoute(),
+            '/register': (context) => RegisterRoute(),
           }),
     );
   }

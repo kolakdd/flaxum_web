@@ -42,8 +42,8 @@ class _MainApp extends State<MainApp> {
   void initState() {
     super.initState();
     final cookie = getTokenFromCookie();
-    if (cookie != null){ 
-    futureObjectList = getOwnObjects(context);
+    if (cookie != null) {
+      futureObjectList = getOwnObjects(context);
     }
   }
 
@@ -112,7 +112,7 @@ class _MainApp extends State<MainApp> {
                             children: [
                               Center(
                                   child: Text(
-                                      "информация о пользователе и мета данные")),
+                                      "Информация о пользователе и мета данные")),
                             ],
                           ),
                         ),

@@ -1,141 +1,188 @@
 import 'package:flutter/material.dart';
 import 'dart:html';
 import '../dio_client.dart' show dio_unauthorized;
+import 'package:flutter_svg/flutter_svg.dart';
 
-class RegisterRoute extends StatelessWidget {
-  const RegisterRoute({super.key});
+class RegisterRoute extends StatefulWidget {
+  @override
+  _RegisterRouteState createState() => _RegisterRouteState();
+}
+
+class _RegisterRouteState extends State<RegisterRoute> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _name1Controller = TextEditingController();
+  final TextEditingController _name2Controller = TextEditingController();
+  final TextEditingController _name3Controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-
     final cookie = document.cookie!;
 
+    if (cookie.isNotEmpty) {
+      final entity = cookie.split("; ").map((item) {
+        final split = item.split("=");
+        return MapEntry(split[0], split[1]);
+      });
+      final cookieMap = Map.fromEntries(entity);
+      if (cookieMap["token"] != null) {
+        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MainApp()));
+      }
+    }
+
     return Scaffold(
-        backgroundColor: const Color.fromARGB(253, 2, 241, 241),
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          title: Text('Регистрация'),
-        ),
-        body: Column(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Spacer(),
-            Form(
-                key: _formKey,
-                child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/rust.svg',
+                  semanticsLabel: 'Rust',
+                  height: 100,
+                  width: 70,
+                ),
+                SvgPicture.asset(
+                  'assets/flutter.svg',
+                  semanticsLabel: 'Flutter',
+                  height: 100,
+                  width: 70,
+                ),
+              ],
+            ),
+            SizedBox(
+              width: 500,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Card(
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'Регистрация',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        TextField(
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            prefixIcon: const Icon(Icons.email),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        TextField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: 'Пароль',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            prefixIcon: Icon(Icons.lock),
+                          ),
+                        ),
+                        const SizedBox(height: 52),
+                        TextField(
+                          controller: _name1Controller,
+                          decoration: InputDecoration(
+                            labelText: 'Имя',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            prefixIcon: Icon(Icons.person),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        TextField(
+                          controller: _name2Controller,
+                          decoration: InputDecoration(
+                            labelText: 'Фамилия',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            prefixIcon: Icon(Icons.person),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        TextField(
+                          controller: _name3Controller,
+                          decoration: InputDecoration(
+                            labelText: 'Отчество',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            prefixIcon: Icon(Icons.person),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () async {
+                            var response = await dio_unauthorized
+                                .post('/user/register', data: {
+                              'email': _emailController.text,
+                              'password': _passwordController.text
+                            });
+                            if (response.statusCode == 201) {
+                              response = await dio_unauthorized
+                                  .post('/user/login', data: {
+                                'email': _emailController.text,
+                                'password': _passwordController.text
+                              });
+                              if (response.statusCode == 200) {
+                                document.cookie =
+                                    "token=${response.data["token"]}";
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/objects');
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text('Неверный логин или пароль')),
+                                );
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        'Пользователь уже зарегистрирован')),
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 16),
-                            child: TextFormField(
-                              controller: emailController,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: "Email"),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Введите почту';
-                                }
-                                return null;
-                              },
+                                horizontal: 64, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 16),
-                            child: TextFormField(
-                              controller: passwordController,
-                              obscureText: true,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: "Пароль"),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Введите пароль';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 16.0),
-                            child: Center(
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  final cookie = document.cookie!;
-                                  print(cookie);
-
-                                  // final entity = cookie.split("; ").map((item) {
-                                  //   final split = item.split("=");
-                                  //   return MapEntry(split[0], split[1]);
-                                  // });
-                                  // final cookieMap = Map.fromEntries(entity);
-                                  // print(cookieMap);
-
-                                  var response = await dio_unauthorized
-                                      .post('/user/register', data: {
-                                    'email': emailController.text,
-                                    'password': passwordController.text
-                                  });
-                                  if (response.statusCode == 201) {
-                                    // sleep(Duration(milliseconds: 500));
-                                    response = await dio_unauthorized
-                                        .post('/user/login', data: {
-                                      'email': emailController.text,
-                                      'password': passwordController.text
-                                    });
-                                    if (response.statusCode == 200) {
-                                      "access_token=${response.data["token"]}";
-
-                                      print("token=${response.data["token"]}");
-                                      document.cookie =
-                                          "token=${response.data["token"]}";
-                                      print("COOKIE SETTED");
-                                      Navigator.of(context)
-                                          .pushReplacementNamed('/objects');
-                                    }
-                                    if (_formKey.currentState!.validate()) {
-                                      if (emailController.text.isNotEmpty &&
-                                          passwordController.text.isNotEmpty) {
-                                        // Navigator.of(context).push(
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             const MainApp()));
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                              content:
-                                                  Text('Invalid Credentials')),
-                                        );
-                                      }
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                            content: Text('Please fill input')),
-                                      );
-                                    }
-                                  } else {
-                                    print(response.statusCode);
-                                  }
-                                },
-                                child: const Text('Submit'),
-                              ),
-                            ),
-                          )
-                        ]))),
-            const Spacer()
+                          child: const Text('Зарегистрировать'),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
