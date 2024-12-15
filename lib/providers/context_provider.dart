@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import '../models/context.dart';
 
+// Контекст нахождения в системе
 class ContextProvider extends ChangeNotifier {
   Context _data = Context(null, Scope.own);
 

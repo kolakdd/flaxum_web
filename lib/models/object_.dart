@@ -51,3 +51,19 @@ class GetOwnObjectsResponse {
 
   Map<String, dynamic> toJson() => _$GetOwnObjectsResponseToJson(this);
 }
+
+
+@JsonSerializable()
+class CreateFolderResponse {
+  final Object_ data;
+  final String status;
+
+  CreateFolderResponse(this.data, this.status);
+
+  factory CreateFolderResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateFolderResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CreateFolderResponseToJson(this);
+}
+
+

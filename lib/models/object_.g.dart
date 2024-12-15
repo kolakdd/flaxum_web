@@ -57,3 +57,17 @@ Map<String, dynamic> _$GetOwnObjectsResponseToJson(
       'offset': instance.offset,
       'status': instance.status,
     };
+
+CreateFolderResponse _$CreateFolderResponseFromJson(
+        Map<String, dynamic> json) =>
+    CreateFolderResponse(
+      Object_.fromJson(json['data'] as Map<String, dynamic>),
+      json['status'] as String,
+    );
+
+Map<String, dynamic> _$CreateFolderResponseToJson(
+        CreateFolderResponse instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+      'status': instance.status,
+    };
