@@ -11,3 +11,10 @@ Offset pointOnCircle(Circle circle) {
   final y = circle.y + circle.r / k * sin(angle);
   return Offset(x, y);
 }
+
+
+Offset generatePoint(int pointSize,  int index) {
+  const int maxInRow = 10;
+  final row = index ~/ maxInRow;
+  return Offset((index - 10 * row) * 90, row * 90);
+}

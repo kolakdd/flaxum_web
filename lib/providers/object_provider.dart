@@ -6,6 +6,9 @@ class ObjectProvider extends ChangeNotifier {
 
   List<Object_> get data => _data;
 
+  int length() {
+    return _data.length;
+  }
 
   void addItem(Object_ newItem) {
     _data.add(newItem);

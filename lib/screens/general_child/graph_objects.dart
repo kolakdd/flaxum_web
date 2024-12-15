@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import '../../models/geometry.dart';
 import '../../models/object_.dart';
-import '../../utils/cicle_calc.dart';
+import '../../utils/get_position.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ObjectGraphStateful extends StatefulWidget {
-  const ObjectGraphStateful({super.key, required Object_ object})
-      : _object = object;
+  const ObjectGraphStateful({super.key, required Object_ object, required int index}) : _object = object, _index = index;
   final Object_ _object;
+  final int _index;
+
 
   @override
   State<ObjectGraphStateful> createState() => _ObjectGraphStateful();
 }
 
 class _ObjectGraphStateful extends State<ObjectGraphStateful> {
-  Offset position = pointOnCircle(Circle(450.0, 400.0, 400));
-
   @override
   Widget build(BuildContext context) {
+    Offset position = generatePoint(70, widget._index);
     return Positioned(
         left: position.dx,
         top: position.dy,

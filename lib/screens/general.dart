@@ -96,9 +96,8 @@ class _MainApp extends State<MainApp> {
                           color: const Color.fromARGB(255, 233, 100, 12),
                           child: Stack(
                             children: [
-                              for (var object
-                                  in Provider.of<ObjectProvider>(context).data)
-                                ObjectGraphStateful(object: object),
+                              for (final (index, object) in Provider.of<ObjectProvider>(context).data.indexed)
+                                ObjectGraphStateful(object: object, index: index),
                             ],
                           ),
                         ),
