@@ -9,7 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../providers/object_provider.dart';
-
+import 'auth.dart';
 
 Future<List<Object_>> getOwnObjects(BuildContext context) async {
   final response = await dio_unauthorized.get('/object/own/list',
@@ -41,95 +41,109 @@ class _MainApp extends State<MainApp> {
   @override
   void initState() {
     super.initState();
+    final cookie = getTokenFromCookie();
+    if (cookie != null){ 
     futureObjectList = getOwnObjects(context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          toolbarHeight: MediaQuery.of(context).size.height / 15,
-          centerTitle: true,
-          title: const Text('flaxum_fileshare'),
-          backgroundColor: const Color.fromARGB(248, 199, 104, 167),
-        ),
-        body: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Column(children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    // список файлов видимой области
-                    Expanded(
-                      child: FutureBuilder<List<Object_>>(
-                        future: futureObjectList,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return objectListWidget(context, snapshot.data!);
-                          } else if (snapshot.hasError) {
-                            return Text('ERROR:  ${snapshot.error}');
-                          }
-                          return Scaffold(
-                              body: Center(
-                            child: LoadingAnimationWidget.discreteCircle(
-                              color: Colors.green,
-                              size: 200,
-                            ),
-                          ));
-                        },
-                      ),
-                    ),
-                    // визуальное файловое пространство
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        color: const Color.fromARGB(255, 202, 204, 87),
-                        child: Stack(
-                          children: [
-                            for (var object in Provider.of<ObjectProvider>(context).data)
-                              ObjectGraphStateful(object: object),
-                          ],
-                        ),
-                      ),
-                    ),
-                    // информация о пользователе и мета данные
-                    Expanded(
-                      child: Container(
-                        color: const Color.fromARGB(255, 86, 77, 206),
-                        child: const Stack(
-                          children: [
-                            Center(
-                                child: Text(
-                                    "информация о пользователе и мета данные")),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Row(children: [
+    final cookie = getTokenFromCookie();
+    if (cookie != null) {
+      print("pricol");
+      return Scaffold(
+          backgroundColor: Color.fromARGB(255, 244, 244, 244),
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            toolbarHeight: MediaQuery.of(context).size.height / 15,
+            centerTitle: true,
+            // Текущая позиция
+            title: const Text('flaxum_fileshare'),
+            backgroundColor: const Color.fromARGB(248, 199, 104, 167),
+          ),
+          body: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Column(children: [
                 Expanded(
-                    child: Row(children: [
-                  const Spacer(),
+                  child: Row(
+                    children: [
+                      // список файлов видимой области
+                      Expanded(
+                        flex: 2,
+                        child: FutureBuilder<List<Object_>>(
+                          future: futureObjectList,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return objectListWidget(context, snapshot.data!);
+                            } else if (snapshot.hasError) {
+                              return Text('ERROR:  ${snapshot.error}');
+                            }
+                            return Scaffold(
+                                body: Center(
+                              child: LoadingAnimationWidget.discreteCircle(
+                                color: Colors.green,
+                                size: 200,
+                              ),
+                            ));
+                          },
+                        ),
+                      ),
+                      // визуальное файловое пространство
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          color: const Color.fromARGB(255, 233, 100, 12),
+                          child: Stack(
+                            children: [
+                              for (var object
+                                  in Provider.of<ObjectProvider>(context).data)
+                                ObjectGraphStateful(object: object),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // информация о пользователе и мета данные
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          color: const Color.fromARGB(255, 86, 77, 206),
+                          child: const Stack(
+                            children: [
+                              Center(
+                                  child: Text(
+                                      "информация о пользователе и мета данные")),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(children: [
                   Expanded(
-                    child: Container(
-                      color: const Color.fromARGB(255, 231, 80, 80),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          uploadFileButton(context),
-                          createFolderButton(context),
-                          cleanTrashButton(context),
-                        ],
+                      child: Row(children: [
+                    const Spacer(),
+                    Expanded(
+                      child: Container(
+                        color: const Color.fromARGB(255, 231, 80, 80),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            uploadFileButton(context),
+                            createFolderButton(context),
+                            cleanTrashButton(context),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const Spacer(),
-                ]))
-              ])
-            ])));
+                    const Spacer(),
+                  ]))
+                ])
+              ])));
+    } else {
+      return LoadAuthScreen();
+    }
   }
 }

@@ -18,14 +18,34 @@ final dateTimeNow = DateTime.now();
 //left side main
 Widget objectListWidget(BuildContext context, List<Object_> object_list) {
   return object_list.isEmpty
-      ? Center(child: Text('Empty'))
+      ? const Center(child: Text("Здесь нет файлов."))
       : ListView.builder(
-        
-          itemCount: Provider.of<ObjectProvider>(context).data!.length,
+          itemCount: Provider.of<ObjectProvider>(context).data.length,
           itemBuilder: (context, idx) {
             var item = Provider.of<ObjectProvider>(context).data[idx];
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
+            return Center(
+                child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black,
+                    offset: Offset(
+                      2.0,
+                      2.0,
+                    ),
+                    blurRadius: 12.0,
+                    spreadRadius: 1.0,
+                  ),
+                  BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(0.0, 0.0),
+                    blurRadius: 0.0,
+                    spreadRadius: 0.0,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -36,7 +56,10 @@ Widget objectListWidget(BuildContext context, List<Object_> object_list) {
                   Text(item.created_at.toString()),
                 ],
               ),
-            );
+            )
+                // padding: const EdgeInsets.all(8.0),
+
+                );
           },
         );
 }

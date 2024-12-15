@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../models/object_.dart';
 
-
 class ObjectProvider extends ChangeNotifier {
   List<Object_> _data = [];
 

@@ -1,5 +1,3 @@
-import 'dart:collection';
-import 'dart:math' show sin, cos, pi;
 import 'package:flaxum_fileshare/models/geometry.dart';
 import 'dart:math' show Random, sin, cos;
 import 'package:flutter/material.dart';
