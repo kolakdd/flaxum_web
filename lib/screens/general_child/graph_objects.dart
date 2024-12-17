@@ -1,31 +1,70 @@
 import 'package:flutter/material.dart';
-import '../../models/geometry.dart';
 import '../../models/object_.dart';
 import '../../utils/get_position.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ObjectGraphStateful extends StatefulWidget {
-  const ObjectGraphStateful({super.key, required Object_ object, required int index}) : _object = object, _index = index;
+  const ObjectGraphStateful(
+      {super.key, required Object_ object, required int index})
+      : _object = object,
+        _index = index;
   final Object_ _object;
   final int _index;
-
 
   @override
   State<ObjectGraphStateful> createState() => _ObjectGraphStateful();
 }
 
+Widget graphElement(type, double size) {
+  return Builder(builder: (context) {
+    if (type == "Dir") {
+      return IconButton(
+          icon: SvgPicture.asset('assets/folder.svg',
+              width: size, height: size, semanticsLabel: 'Folder'),
+          onPressed: () {});
+    } else {
+      return IconButton(
+          icon: SvgPicture.asset('assets/file.svg',
+              width: size, height: size, semanticsLabel: 'File'),
+          onPressed: () {});
+    }
+  });
+}
+
+Widget graphElementTextRiched(element, name) {
+  return SizedBox(
+    width: 190,
+    height: 190,
+    child: Column(
+      children: [
+        Text(
+          name,
+          style: const TextStyle(
+              color: Colors.black,
+              decoration: TextDecoration.none,
+              fontSize: 24,
+              overflow: TextOverflow.ellipsis,
+              fontWeight: FontWeight.bold),
+        ),
+        element,
+      ],
+    ),
+  );
+}
+
 class _ObjectGraphStateful extends State<ObjectGraphStateful> {
   @override
   Widget build(BuildContext context) {
-    Offset position = generatePoint(70, widget._index);
+    final element = graphElement(widget._object.type, 140);
+    Offset position = generatePoint(140, widget._index);
     return Positioned(
         left: position.dx,
         top: position.dy,
         child: Draggable(
-            feedback: Text(widget._object.name),
+            feedback: graphElementTextRiched(element, widget._object.name),
             childWhenDragging: Opacity(
-              opacity: .3,
-              child: Text(widget._object.name),
+              opacity: 0.3,
+              child: graphElementTextRiched(element, widget._object.name),
             ),
             onDragEnd: (details) => setState(() {
                   double dx =
@@ -34,23 +73,6 @@ class _ObjectGraphStateful extends State<ObjectGraphStateful> {
                       MediaQuery.of(context).size.height / 15;
                   position = Offset(dx, dy);
                 }),
-            child: Column(
-              children: [
-                Text(widget._object.name),
-                Builder(builder: (context) {
-                  if (widget._object.type == "Dir") {
-                    return IconButton(
-                        icon: SvgPicture.asset('assets/folder.svg',
-                            width: 70, height: 70, semanticsLabel: 'Folder'),
-                        onPressed: () {});
-                  } else {
-                    return IconButton(
-                        icon: SvgPicture.asset('assets/file.svg',
-                            width: 70, height: 70, semanticsLabel: 'File'),
-                        onPressed: () {});
-                  }
-                })
-              ],
-            )));
+            child: graphElementTextRiched(element, widget._object.name)));
   }
 }

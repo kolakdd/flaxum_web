@@ -52,7 +52,6 @@ class GetOwnObjectsResponse {
   Map<String, dynamic> toJson() => _$GetOwnObjectsResponseToJson(this);
 }
 
-
 @JsonSerializable()
 class CreateFolderResponse {
   final Object_ data;
@@ -65,5 +64,3 @@ class CreateFolderResponse {
 
   Map<String, dynamic> toJson() => _$CreateFolderResponseToJson(this);
 }
-
-

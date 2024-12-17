@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:html';
 import '../dio_client.dart' show dio_unauthorized;
-import 'package:flutter_svg/flutter_svg.dart';
+import 'auth_сommon.dart';
 
 class RegisterRoute extends StatefulWidget {
   @override
@@ -17,42 +17,13 @@ class _RegisterRouteState extends State<RegisterRoute> {
 
   @override
   Widget build(BuildContext context) {
-    final cookie = document.cookie!;
-
-    if (cookie.isNotEmpty) {
-      final entity = cookie.split("; ").map((item) {
-        final split = item.split("=");
-        return MapEntry(split[0], split[1]);
-      });
-      final cookieMap = Map.fromEntries(entity);
-      if (cookieMap["token"] != null) {
-        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MainApp()));
-      }
-    }
-
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  'assets/rust.svg',
-                  semanticsLabel: 'Rust',
-                  height: 100,
-                  width: 70,
-                ),
-                SvgPicture.asset(
-                  'assets/flutter.svg',
-                  semanticsLabel: 'Flutter',
-                  height: 100,
-                  width: 70,
-                ),
-              ],
-            ),
+            imagesFlutterRust(),
             SizedBox(
               width: 500,
               child: Padding(
@@ -136,7 +107,8 @@ class _RegisterRouteState extends State<RegisterRoute> {
                             var response = await dio_unauthorized
                                 .post('/user/register', data: {
                               'email': _emailController.text,
-                              'password': _passwordController.text
+                              'password': _passwordController.text,
+                              'user_name': _name1Controller.text
                             });
                             if (response.statusCode == 201) {
                               response = await dio_unauthorized

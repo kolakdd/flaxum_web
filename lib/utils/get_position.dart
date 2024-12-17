@@ -2,7 +2,7 @@ import 'package:flaxum_fileshare/models/geometry.dart';
 import 'dart:math' show Random, sin, cos;
 import 'package:flutter/material.dart';
 
-///Функция для равномерного расположения точек на окружности
+/// Функция для равномерного расположения точек на окружности
 Offset pointOnCircle(Circle circle) {
   final angle = Random().nextDouble() * 20;
   final k = Random().nextDouble() + 1.5 // MAIN
@@ -12,9 +12,8 @@ Offset pointOnCircle(Circle circle) {
   return Offset(x, y);
 }
 
-
-Offset generatePoint(int pointSize,  int index) {
-  const int maxInRow = 10;
+Offset generatePoint(int pointSize, int index) {
+  const int maxInRow = 5;
   final row = index ~/ maxInRow;
-  return Offset((index - 10 * row) * 90, row * 90);
+  return Offset((index - maxInRow * row) * 180, row * 180);
 }

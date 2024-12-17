@@ -50,6 +50,7 @@ dependencies:
   provider: ^6.1.2
   flutter_svg: ^2.0.16
   gestures: ^1.0.0
+  file_picker: ^8.1.6
 
 dev_dependencies:
   flutter_test:
