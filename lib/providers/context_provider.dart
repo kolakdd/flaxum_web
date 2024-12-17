@@ -11,4 +11,9 @@ class ContextProvider extends ChangeNotifier {
     _data = newData;
     notifyListeners();
   }
+
+  void updateScope(Scope? newScope) {
+    _data.current_scope = newScope;
+    notifyListeners();
+  }
 }

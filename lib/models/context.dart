@@ -2,6 +2,21 @@
 /// пользователь в данный момент
 enum Scope { own, trash, shared }
 
+extension ScopeExtension on Scope {
+  String toDisplayString() {
+    switch (this) {
+      case Scope.own:
+        return "Мои файлы";
+      case Scope.trash:
+        return "Корзина";
+      case Scope.shared:
+        return "Общие файлы";
+      default:
+        return "Default";
+    }
+  }
+}
+
 class CurrentDirContext {
   final String id;
   final String name;
@@ -11,8 +26,8 @@ class CurrentDirContext {
 
 class Context {
   //None - root
-  final CurrentDirContext? current_dir;
-  final Scope current_scope;
+  CurrentDirContext? current_dir;
+  Scope? current_scope;
 
   Context(this.current_dir, this.current_scope);
 }

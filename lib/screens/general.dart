@@ -1,4 +1,5 @@
 import 'package:flaxum_fileshare/dio_client.dart';
+import 'package:flaxum_fileshare/models/context.dart';
 import 'package:flaxum_fileshare/models/object_.dart';
 import 'package:flutter/material.dart';
 import 'object_list.dart';
@@ -8,24 +9,10 @@ import 'package:dio/dio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../providers/object_provider.dart';
+import '../providers/context_provider.dart';
+import '../network/object_list.dart';
 import 'auth.dart';
-
-Future<List<Object_>> getOwnObjects(BuildContext context) async {
-  final response = await dio_unauthorized.get('/object/own/list',
-      options: Options(contentType: "application/json", headers: {
-        "authorization": getTokenFromCookie(),
-      }));
-  if (response.statusCode == 200) {
-    final result = GetOwnObjectsResponse.fromJson(response.data);
-    Provider.of<ObjectProvider>(context, listen: false).updateData(result.data);
-    return result.data;
-  } else if (response.statusCode == 401) {
-    Navigator.of(context).pushReplacementNamed('/auth');
-    throw Exception('Unauthorize');
-  } else {
-    throw Exception('Failed to load objects');
-  }
-}
+import 'dart:html';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -51,14 +38,27 @@ class _MainApp extends State<MainApp> {
     final cookie = getTokenFromCookie();
     if (cookie != null) {
       return Scaffold(
-          backgroundColor: const Color.fromARGB(255, 244, 244, 244),
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            toolbarHeight: MediaQuery.of(context).size.height / 15,
-            // Текущая позиция
-            title: const Text('Мои файлы'),
-          ),
-          body: Column(children: [
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          toolbarHeight: MediaQuery.of(context).size.height / 15,
+          title: Text(Provider.of<ContextProvider>(context, listen: false)
+              .data
+              .current_scope!
+              .toDisplayString()),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.login),
+              tooltip: 'Unlogin',
+              onPressed: () {
+                document.cookie = "";
+                Navigator.of(context).pushReplacementNamed('/auth');
+              },
+            ),
+          ],
+        ),
+        body: Column(
+          children: [
+            const TopButtonBar(),
             Expanded(
               child: Row(
                 children: [
@@ -73,13 +73,12 @@ class _MainApp extends State<MainApp> {
                         } else if (snapshot.hasError) {
                           return Text('ERROR:  ${snapshot.error}');
                         }
-                        return Scaffold(
-                            body: Center(
+                        return Center(
                           child: LoadingAnimationWidget.discreteCircle(
                             color: Colors.green,
                             size: 200,
                           ),
-                        ));
+                        );
                       },
                     ),
                   ),
@@ -101,36 +100,57 @@ class _MainApp extends State<MainApp> {
                     flex: 1,
                     child: Container(
                       color: const Color.fromARGB(255, 86, 77, 206),
-                      child: const Stack(
-                        children: [
-                          Center(child: Text("Информация об объекте")),
-                        ],
-                      ),
+                      child: const Center(child: Text("Информация об объекте")),
                     ),
                   ),
                 ],
               ),
             ),
-            Row(children: [
-              Expanded(
-                  child: Row(children: [
-                Expanded(
-                  child: Container(
-                    color: const Color.fromARGB(255, 231, 80, 80),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(child: uploadFileButton(context)),
-                        Expanded(child: createFolderButton(context)),
-                      ],
-                    ),
-                  ),
-                ),
-              ]))
-            ])
-          ]));
+            BottomButtonBar(context), // Нижняя панель с кнопками
+          ],
+        ),
+      );
     } else {
       return LoadAuthScreen();
     }
+  }
+}
+
+class TopButtonBar extends StatelessWidget {
+  const TopButtonBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color.fromARGB(255, 231, 80, 80),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(child: myFiles(context)),
+          Expanded(child: trashFiles(context)),
+          Expanded(child: sharedFiles(context)),
+        ],
+      ),
+    );
+  }
+}
+
+class BottomButtonBar extends StatelessWidget {
+  final BuildContext context;
+
+  const BottomButtonBar(this.context, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color.fromARGB(255, 231, 80, 80),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(child: uploadFileButton(context)),
+          Expanded(child: createFolderButton(context)),
+        ],
+      ),
+    );
   }
 }

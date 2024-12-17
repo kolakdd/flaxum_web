@@ -6,6 +6,7 @@ import 'package:flaxum_fileshare/providers/object_provider.dart';
 import 'package:flaxum_fileshare/providers/context_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:dio/dio.dart';
+import '../../network/object_list.dart';
 
 createFolder(BuildContext context, String name) async {
   final ctx = Provider.of<ContextProvider>(context, listen: false).data;
@@ -25,64 +26,6 @@ createFolder(BuildContext context, String name) async {
   } else {
     throw Exception('Failed to load objects');
   }
-}
-
-Widget uploadFileButton(BuildContext context) {
-  return SizedBox(
-      height: MediaQuery.of(context).size.height / 15,
-      child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.zero,
-              ),
-              backgroundColor: Colors.white),
-          child: const Text(
-            'Загрузить файл',
-            style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
-          ),
-          onPressed: () async {
-            var picked = await FilePicker.platform.pickFiles();
-
-            if (picked != null) {
-              final ctx =
-                  Provider.of<ContextProvider>(context, listen: false).data;
-              final parentId =
-                  ctx.current_dir == null ? null : ctx.current_dir!.id;
-
-              // Получаем имя файла
-              String fileName = picked.files.first.name;
-
-              // Создаем FormData с файлом и его именем
-              final formData = FormData.fromMap({
-                'file': MultipartFile.fromBytes(
-                  picked.files.first.bytes as List<int>,
-                  filename: fileName, // Указываем имя файла здесь
-                ),
-              });
-
-              final response = await dio_unauthorized.post(
-                '/upload',
-                data: formData,
-                queryParameters: {"parent_id": parentId},
-                options: Options(
-                  headers: {
-                    "Authorization": getTokenFromCookie(),
-                    "Content-Type": "multipart/form-data",
-                  },
-                ),
-              );
-              if (response.statusCode == 200) {
-                final result = CreateFolderResponse.fromJson(response.data);
-                Provider.of<ObjectProvider>(context, listen: false).addItem(result.data);
-              } else if (response.statusCode == 401) {
-                Navigator.of(context).pushReplacementNamed('/auth');
-                throw Exception('Unauthorized');
-              } else {
-                throw Exception('Failed to load objects');
-              }
-            }
-          }));
 }
 
 Widget createFolderButton(BuildContext context) {
@@ -137,4 +80,120 @@ void _showCreateFolderDialog(BuildContext context) async {
       );
     },
   );
+}
+
+Widget uploadFileButton(BuildContext context) {
+  return SizedBox(
+      height: MediaQuery.of(context).size.height / 15,
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero,
+              ),
+              backgroundColor: Colors.white),
+          child: const Text(
+            'Загрузить файл',
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          onPressed: () async {
+            var picked = await FilePicker.platform.pickFiles();
+
+            if (picked != null) {
+              final ctx =
+                  Provider.of<ContextProvider>(context, listen: false).data;
+              final parentId =
+                  ctx.current_dir == null ? null : ctx.current_dir!.id;
+
+              // Получаем имя файла
+              String fileName = picked.files.first.name;
+
+              // Создаем FormData с файлом и его именем
+              final formData = FormData.fromMap({
+                'file': MultipartFile.fromBytes(
+                  picked.files.first.bytes as List<int>,
+                  filename: fileName, // Указываем имя файла здесь
+                ),
+              });
+
+              final response = await dio_unauthorized.post(
+                '/upload',
+                data: formData,
+                queryParameters: {"parent_id": parentId},
+                options: Options(
+                  headers: {
+                    "Authorization": getTokenFromCookie(),
+                    "Content-Type": "multipart/form-data",
+                  },
+                ),
+              );
+              if (response.statusCode == 200) {
+                final result = CreateFolderResponse.fromJson(response.data);
+                Provider.of<ObjectProvider>(context, listen: false)
+                    .addItem(result.data);
+              } else if (response.statusCode == 401) {
+                Navigator.of(context).pushReplacementNamed('/auth');
+                throw Exception('Unauthorized');
+              } else {
+                throw Exception('Failed to load objects');
+              }
+            }
+          }));
+}
+
+Widget myFiles(BuildContext context) {
+  return SizedBox(
+      height: MediaQuery.of(context).size.height / 15,
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero,
+              ),
+              backgroundColor: Colors.white),
+          child: const Text(
+            'Мои файлы',
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          onPressed: () async {
+            await getOwnObjects(context);
+          }));
+}
+
+Widget trashFiles(BuildContext context) {
+  return SizedBox(
+      height: MediaQuery.of(context).size.height / 15,
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero,
+              ),
+              backgroundColor: Colors.white),
+          child: const Text(
+            'Корзина',
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          onPressed: () async {
+            await getTrashObjects(context);
+          }));
+}
+
+Widget sharedFiles(BuildContext context) {
+  return SizedBox(
+      height: MediaQuery.of(context).size.height / 15,
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero,
+              ),
+              backgroundColor: Colors.white),
+          child: const Text(
+            'Доступные мне',
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          onPressed: () async {
+            await getSharedObjects(context);
+          }));
 }
