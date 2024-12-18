@@ -61,3 +61,15 @@ Map<String, dynamic> _$GetUxoResponseToJson(GetUxoResponse instance) =>
       'data': instance.data,
       'status': instance.status,
     };
+
+CreateUxoResponse _$CreateUxoResponseFromJson(Map<String, dynamic> json) =>
+    CreateUxoResponse(
+      UxoItem.fromJson(json['data'] as Map<String, dynamic>),
+      json['status'] as String,
+    );
+
+Map<String, dynamic> _$CreateUxoResponseToJson(CreateUxoResponse instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+      'status': instance.status,
+    };

@@ -65,3 +65,25 @@ class GetUxoResponse {
 
   Map<String, dynamic> toJson() => _$GetUxoResponseToJson(this);
 }
+
+@JsonSerializable()
+class CreateUxoResponse {
+  final UxoItem data;
+  final String status;
+
+  CreateUxoResponse(this.data, this.status);
+
+  factory CreateUxoResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateUxoResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CreateUxoResponseToJson(this);
+}
+
+class CreateUxoDto {
+  final bool canRead;
+  final bool canEdit;
+  final bool canDelete;
+  final String recipientEmail;
+
+  CreateUxoDto(this.canRead, this.canEdit, this.canDelete, this.recipientEmail);
+}

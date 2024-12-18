@@ -13,4 +13,9 @@ class UxoProvider extends ChangeNotifier {
     _data = newData;
     notifyListeners();
   }
+
+  void addItem(UxoItem newItem) {
+    _data.add(newItem);
+    notifyListeners();
+  }
 }

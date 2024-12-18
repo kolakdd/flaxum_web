@@ -21,7 +21,6 @@ class _ObjectListWidgetState extends State<ObjectListWidget> {
   @override
   void initState() {
     super.initState();
-    // Prevent default event handler
     document.onContextMenu.listen((event) => event.preventDefault());
   }
 

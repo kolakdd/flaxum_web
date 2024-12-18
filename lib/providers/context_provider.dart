@@ -8,7 +8,6 @@ class ContextProvider extends ChangeNotifier {
 
   Context get data => _data;
 
-
   void addBread(Object_ newData) {
     _data.idStack.add(newData.id);
     _data.nameStack.add(newData.name);

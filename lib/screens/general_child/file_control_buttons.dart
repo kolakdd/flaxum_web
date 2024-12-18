@@ -1,3 +1,4 @@
+import 'package:flaxum_fileshare/models/context.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flaxum_fileshare/models/object_.dart';
@@ -42,6 +43,12 @@ Widget createFolderButton(BuildContext context) {
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           onPressed: () async {
+            if (Provider.of<ContextProvider>(context, listen: false)
+                    .data
+                    .current_scope !=
+                Scope.own) {
+              return;
+            }
             _showCreateFolderDialog(context);
           }));
 }
@@ -96,6 +103,12 @@ Widget uploadFileButton(BuildContext context) {
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           onPressed: () async {
+            if (Provider.of<ContextProvider>(context, listen: false)
+                    .data
+                    .current_scope !=
+                Scope.own) {
+              return;
+            }
             var picked = await FilePicker.platform.pickFiles();
 
             if (picked != null) {
@@ -154,6 +167,11 @@ Widget myFiles(BuildContext context) {
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           onPressed: () async {
+            Provider.of<ContextProvider>(context, listen: false).data.idStack =
+                [];
+            Provider.of<ContextProvider>(context, listen: false)
+                .data
+                .nameStack = [];
             await getOwnObjects(context, null);
           }));
 }
@@ -173,6 +191,11 @@ Widget trashFiles(BuildContext context) {
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           onPressed: () async {
+            Provider.of<ContextProvider>(context, listen: false).data.idStack =
+                [];
+            Provider.of<ContextProvider>(context, listen: false)
+                .data
+                .nameStack = [];
             await getTrashObjects(context);
           }));
 }
@@ -192,6 +215,11 @@ Widget sharedFiles(BuildContext context) {
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           onPressed: () async {
+            Provider.of<ContextProvider>(context, listen: false).data.idStack =
+                [];
+            Provider.of<ContextProvider>(context, listen: false)
+                .data
+                .nameStack = [];
             await getSharedObjects(context, null);
           }));
 }

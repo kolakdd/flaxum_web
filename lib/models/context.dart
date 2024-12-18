@@ -12,7 +12,7 @@ extension ScopeExtension on Scope {
       case Scope.trash:
         return "Корзина";
       case Scope.shared:
-        return "Общие файлы";
+        return "Доступные мне";
       default:
         return "Default";
     }
@@ -33,8 +33,7 @@ class Context {
   List<String> nameStack;
   List<String> idStack;
 
-  Context(
-    this.current_scope, this.uxo_pointer, 
-    nameStack, idStack
-    ) : nameStack = [], idStack=[];
+  Context(this.current_scope, this.uxo_pointer, nameStack, idStack)
+      : nameStack = [],
+        idStack = [];
 }

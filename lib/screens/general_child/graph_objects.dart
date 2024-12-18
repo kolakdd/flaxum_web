@@ -19,13 +19,15 @@ Widget elementIcon(type, double size, Object_ item) {
                 .current_scope!) {
               case Scope.own:
                 getOwnObjects(context, item.id);
-                Provider.of<ContextProvider>(context, listen: false).addBread(item);
+                Provider.of<ContextProvider>(context, listen: false)
+                    .addBread(item);
                 break;
               case Scope.trash:
                 break;
               case Scope.shared:
                 getSharedObjects(context, item.id);
-                Provider.of<ContextProvider>(context, listen: false).addBread(item);
+                Provider.of<ContextProvider>(context, listen: false)
+                    .addBread(item);
                 break;
             }
           });
@@ -86,14 +88,14 @@ class _ObjectGraphStateful extends State<ObjectGraphStateful> {
               child: graphElementTextRiched(element, widget._object.name),
             ),
             onDragEnd: (details) => {
-                // setState(() {
-                //   double dx =
-                //       details.offset.dx - MediaQuery.of(context).size.width / 3;
-                //   double dy = details.offset.dy -
-                //       MediaQuery.of(context).size.height / 15;
-                //   position = Offset(dx, dy);
-                // }
-                // )
+                  // setState(() {
+                  //   double dx =
+                  //       details.offset.dx - MediaQuery.of(context).size.width / 3;
+                  //   double dy = details.offset.dy -
+                  //       MediaQuery.of(context).size.height / 15;
+                  //   position = Offset(dx, dy);
+                  // }
+                  // )
                 },
             child: graphElementTextRiched(element, widget._object.name)));
   }

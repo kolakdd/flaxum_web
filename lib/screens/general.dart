@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flaxum_fileshare/dio_client.dart';
 import 'package:flaxum_fileshare/models/context.dart';
 import 'package:flaxum_fileshare/models/object_.dart';
+import 'package:flaxum_fileshare/models/uxo.dart';
 import 'package:flaxum_fileshare/screens/general_child/format_data.dart';
 import 'package:flutter/material.dart';
 import 'general_child/object_list.dart';
@@ -43,50 +45,89 @@ class _MainApp extends State<MainApp> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           toolbarHeight: MediaQuery.of(context).size.height / 15,
-          title: Row(children: [
-                Text(
-            Provider.of<ContextProvider>(context, listen: false)
-                .data
-                .current_scope!
-                .toDisplayString() ,
-            style: commonTextStyle(),
-          ),
-          const SizedBox(width: 20),
-           if (Provider.of<ContextProvider>(context, listen: false)
-                .data.idStack.isNotEmpty) ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.zero,
+          title: Row(
+            children: [
+              Text(
+                Provider.of<ContextProvider>(context, listen: false)
+                    .data
+                    .current_scope!
+                    .toDisplayString(),
+                style: commonTextStyle(),
               ),
-              backgroundColor: const Color.fromARGB(255, 255, 255, 255)),
-          child:  const Text(
-            'назад',
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+              const SizedBox(width: 20),
+              if (Provider.of<ContextProvider>(context, listen: false)
+                  .data
+                  .idStack
+                  .isNotEmpty)
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                        ),
+                        backgroundColor:
+                            const Color.fromARGB(255, 255, 255, 255)),
+                    child: const Text(
+                      'назад',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                    onPressed: () async {
+                      switch (
+                          Provider.of<ContextProvider>(context, listen: false)
+                              .data
+                              .current_scope!) {
+                        case Scope.own:
+                          {
+                            Provider.of<ContextProvider>(context, listen: false)
+                                .data
+                                .idStack
+                                .removeLast();
+                            Provider.of<ContextProvider>(context, listen: false)
+                                .data
+                                .nameStack
+                                .removeLast();
+                            await getOwnObjects(
+                                context,
+                                Provider.of<ContextProvider>(context,
+                                        listen: false)
+                                    .data
+                                    .idStack
+                                    .lastOrNull);
+                          }
+                        case Scope.shared:
+                          {
+                            Provider.of<ContextProvider>(context, listen: false)
+                                .data
+                                .idStack
+                                .removeLast();
+                            Provider.of<ContextProvider>(context, listen: false)
+                                .data
+                                .nameStack
+                                .removeLast();
+                            await getSharedObjects(
+                                context,
+                                Provider.of<ContextProvider>(context,
+                                        listen: false)
+                                    .data
+                                    .idStack
+                                    .lastOrNull);
+                          }
+                        case _:
+                          break;
+                      }
+                    }),
+              const SizedBox(width: 20),
+              Text(
+                Provider.of<ContextProvider>(context, listen: false)
+                    .data
+                    .nameStack
+                    .join("/"),
+                style: commonTextStyle(),
+              ),
+            ],
           ),
-          onPressed: () async {
-              switch (Provider.of<ContextProvider>(context, listen: false).data.current_scope!){
-                case Scope.own: {
-                  Provider.of<ContextProvider>(context, listen: false).data.idStack.removeLast();
-                  Provider.of<ContextProvider>(context, listen: false).data.nameStack.removeLast();
-                  await getOwnObjects(context, Provider.of<ContextProvider>(context, listen: false).data.idStack.lastOrNull);
-                }
-                case Scope.shared: {
-                  Provider.of<ContextProvider>(context, listen: false).data.idStack.removeLast();
-                  Provider.of<ContextProvider>(context, listen: false).data.nameStack.removeLast();
-                  await getSharedObjects(context, Provider.of<ContextProvider>(context, listen: false).data.idStack.lastOrNull);
-                }
-                case _ : break; 
-
-              }
-          }),
-          const SizedBox(width: 20),
-
-               Text(
-            Provider.of<ContextProvider>(context, listen: false)
-                .data.nameStack.join("/") ,
-            style: commonTextStyle(),
-          ),],),
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.login),
@@ -109,9 +150,9 @@ class _MainApp extends State<MainApp> {
                     children: [
                       SizedBox(
                           height: 30,
-                          width: 500,
+                          width: 600,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Название",
                                   style: commonTextStyle(),
@@ -164,23 +205,77 @@ class _MainApp extends State<MainApp> {
                       ],
                     ),
                   ),
-                  // Информация о файле на который нажали
+                  // Информация о доступе к файлу на который нажали
                   Expanded(
-                      flex: 1,
-                      child: Container(child: () {
-                        if (Provider.of<UxoProvider>(context).data.isNotEmpty) {
-                          return Column(
+                      flex: 2,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              for (final uxoItem
-                                  in Provider.of<UxoProvider>(context).data)
-                                UxoListStateful(
-                                  uxoItem: uxoItem,
-                                ),
+                              Text("Доступно для:",
+                                  style: commonTextStyle(),
+                                  overflow: TextOverflow.ellipsis),
+                              const Spacer(
+                                flex: 1,
+                              ),
+                              Text("Уровни доступа",
+                                  style: commonTextStyle(),
+                                  overflow: TextOverflow.ellipsis),
                             ],
-                          );
-                        }
-                        return const Text('Информация о доступах к файлу');
-                      }())),
+                          ),
+                          const SizedBox(height: 24),
+                          if (Provider.of<ContextProvider>(context,
+                                      listen: false)
+                                  .data
+                                  .uxo_pointer !=
+                              null && Provider.of<ContextProvider>(context,
+                                      listen: false)
+                                  .data.current_scope == Scope.own )
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.zero,
+                                    ),
+                                    backgroundColor: const Color.fromARGB(
+                                        255, 255, 255, 255)),
+                                child: const Text(
+                                  'Поделиться',
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                                onPressed: () async {
+                                  if (Provider.of<ContextProvider>(context,
+                                              listen: false)
+                                          .data
+                                          .current_scope !=
+                                      Scope.own) {
+                                    return;
+                                  }
+                                  _showAddAccessDialog(context);
+                                }),
+                          const SizedBox(height: 24),
+                          Expanded(child: () {
+                            if (Provider.of<UxoProvider>(context)
+                                .data
+                                .isNotEmpty) {
+                              return UxoListStateful(
+                                uxoItems:
+                                    Provider.of<UxoProvider>(context).data,
+                              );
+                            }
+                            return const Text(
+                              'Информация о доступах к файлу',
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            );
+                          }())
+                        ],
+                      )),
                 ],
               ),
             ),
@@ -230,5 +325,76 @@ class BottomButtonBar extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+void _showAddAccessDialog(BuildContext context) async {
+  final TextEditingController recipientEmailController =
+      TextEditingController();
+  bool canRead = true;
+  bool canEdit = true;
+  bool canDelete = true;
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SizedBox(
+        width: 500,
+        height: 500,
+        child: AlertDialog(
+          title: const Text('Введите логин получателя'),
+          content: TextField(
+            controller: recipientEmailController,
+            decoration: const InputDecoration(hintText: "Логин получателя"),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () async {
+                String recipientEmail = recipientEmailController.text;
+                if (recipientEmail.isNotEmpty) {
+                  await addAccess(
+                      context,
+                      Provider.of<ContextProvider>(context, listen: false)
+                          .data
+                          .uxo_pointer!,
+                      CreateUxoDto(
+                          canRead, canEdit, canDelete, recipientEmail));
+                }
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Отмена'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Закрываем диалог
+              },
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+addAccess(BuildContext context, Object_ object, CreateUxoDto dto) async {
+  final response = await dioUnauthorized.post('/access/give/${object.id}',
+      data: {
+        "can_read": dto.canRead,
+        "can_edit": dto.canEdit,
+        "can_delete": dto.canDelete,
+        "recipient_email": dto.recipientEmail
+      },
+      options: Options(contentType: "application/json", headers: {
+        "authorization": getTokenFromCookie(),
+      }));
+  if (response.statusCode == 200) {
+    final result = CreateUxoResponse.fromJson(response.data);
+    Provider.of<UxoProvider>(context, listen: false).addItem(result.data);
+  } else if (response.statusCode == 401) {
+    Navigator.of(context).pushReplacementNamed('/auth');
+    throw Exception('Unauthorized');
+  } else {
+    throw Exception('Failed to load objects');
   }
 }
