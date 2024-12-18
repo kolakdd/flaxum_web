@@ -32,6 +32,5 @@ class Context {
   Scope? current_scope;
   Object_? uxo_pointer;
 
-
   Context(this.current_dir, this.current_scope, this.uxo_pointer);
 }

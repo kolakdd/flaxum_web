@@ -1,13 +1,12 @@
 import 'package:flaxum_fileshare/models/context.dart';
+import 'package:flaxum_fileshare/screens/general_child/format_data.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../models/object_.dart';
 import '../../models/uxo.dart';
-
-import 'package:provider/provider.dart';
 import '../../providers/object_provider.dart';
 import '../../providers/context_provider.dart';
 import '../../providers/uxo_provider.dart';
-
 import 'graph_objects.dart';
 import 'package:universal_html/html.dart';
 import 'package:dio/dio.dart';
@@ -64,12 +63,33 @@ class _ObjectListWidgetState extends State<ObjectListWidget> {
                       ),
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        graphElement(item.type, 25),
-                        Text(item.name),
-                        Text(item.size.toString()),
-                        Text(item.created_at.toString()),
+                        elementIcon(item.type, 25),
+                        const Spacer(flex: 1),
+                        Expanded(
+                          flex: 4, 
+                          child: Text(item.name,
+                              style: commonTextStyle(),
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                        const Spacer(
+                            flex:
+                                1),Expanded(
+                          flex: 2, 
+                          child: Text(formatBytes(item.size),
+                              style: commonTextStyle(),
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                        const Spacer(
+                            flex:
+                                1), 
+                        Expanded(
+                          flex: 4, 
+                          child: Text(formatDateTime(item.created_at),
+                              style: commonTextStyle(),
+                              overflow: TextOverflow.ellipsis),
+                        ),
                       ],
                     ),
                   ),
@@ -81,20 +101,20 @@ class _ObjectListWidgetState extends State<ObjectListWidget> {
 
   void _onTap(Object_ object) async {
     final response = await dioUnauthorized.get('/access/list/${object.id}',
-          options: Options(contentType: "application/json", headers: {
-            "authorization": getTokenFromCookie(),
-          }));
-      if (response.statusCode == 200) {
-        final result = GetUxoResponse.fromJson(response.data);
-        Provider.of<UxoProvider>(context, listen: false).updateData(result.data);
-        Provider.of<ContextProvider>(context, listen: false).updateUxoPointer(object);
-
-      } else if (response.statusCode == 401) {
-        Navigator.of(context).pushReplacementNamed('/auth');
-        throw Exception('Unauthorized');
-      } else {
-        throw Exception('Failed to load objects');
-      }
+        options: Options(contentType: "application/json", headers: {
+          "authorization": getTokenFromCookie(),
+        }));
+    if (response.statusCode == 200) {
+      final result = GetUxoResponse.fromJson(response.data);
+      Provider.of<UxoProvider>(context, listen: false).updateData(result.data);
+      Provider.of<ContextProvider>(context, listen: false)
+          .updateUxoPointer(object);
+    } else if (response.statusCode == 401) {
+      Navigator.of(context).pushReplacementNamed('/auth');
+      throw Exception('Unauthorized');
+    } else {
+      throw Exception('Failed to load objects');
+    }
   }
 
   void _onSecondaryTap(TapDownDetails details, Object_ item, Context ctx) {

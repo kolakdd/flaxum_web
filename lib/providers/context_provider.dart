@@ -13,9 +13,8 @@ class ContextProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-    void updateUxoPointer(Object_ newData) {
+  void updateUxoPointer(Object_ newData) {
     _data.uxo_pointer = newData;
     notifyListeners();
   }
-
 }

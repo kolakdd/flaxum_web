@@ -1,6 +1,7 @@
 import 'package:flaxum_fileshare/dio_client.dart';
 import 'package:flaxum_fileshare/models/context.dart';
 import 'package:flaxum_fileshare/models/object_.dart';
+import 'package:flaxum_fileshare/screens/general_child/format_data.dart';
 import 'package:flutter/material.dart';
 import 'general_child/object_list.dart';
 import 'general_child/file_control_buttons.dart';
@@ -45,7 +46,7 @@ class _MainApp extends State<MainApp> {
           title: Text(Provider.of<ContextProvider>(context, listen: false)
               .data
               .current_scope!
-              .toDisplayString()),
+              .toDisplayString(), style: commonTextStyle(),),
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.login),
@@ -64,9 +65,24 @@ class _MainApp extends State<MainApp> {
               child: Row(
                 children: [
                   // список файлов видимой области
-                  Expanded(
-                    flex: 2,
-                    child: FutureBuilder<List<Object_>>(
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 30, width: 500,
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text("Название",  style: commonTextStyle(), overflow: TextOverflow.ellipsis),
+                        const Spacer(flex: 1,),
+                        Text("Размер", style: commonTextStyle(), overflow: TextOverflow.ellipsis),
+                        const Spacer(flex: 1,),
+                        Text("Дата создания",  style: commonTextStyle(), overflow: TextOverflow.ellipsis),
+                      ],))
+                      ,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 3,
+                      height: MediaQuery.of(context).size.height /1.3,
+                      child: FutureBuilder<List<Object_>>(
                       future: futureObjectList,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
@@ -81,7 +97,9 @@ class _MainApp extends State<MainApp> {
                           ),
                         );
                       },
-                    ),
+                    ))
+                    ],
+
                   ),
                   // визуальное файловое пространство
                   Expanded(
@@ -119,7 +137,7 @@ class _MainApp extends State<MainApp> {
         ),
       );
     } else {
-      return LoadAuthScreen();
+      return const LoadAuthScreen();
     }
   }
 }

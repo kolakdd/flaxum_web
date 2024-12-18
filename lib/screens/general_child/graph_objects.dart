@@ -3,7 +3,7 @@ import '../../models/object_.dart';
 import '../../utils/get_position.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-Widget graphElement(type, double size) {
+Widget elementIcon(type, double size) {
   return Builder(builder: (context) {
     if (type == "Dir") {
       return IconButton(
@@ -40,7 +40,6 @@ Widget graphElementTextRiched(element, name) {
   );
 }
 
-
 class ObjectGraphStateful extends StatefulWidget {
   const ObjectGraphStateful(
       {super.key, required Object_ object, required int index})
@@ -56,7 +55,7 @@ class ObjectGraphStateful extends StatefulWidget {
 class _ObjectGraphStateful extends State<ObjectGraphStateful> {
   @override
   Widget build(BuildContext context) {
-    final element = graphElement(widget._object.type, 140);
+    final element = elementIcon(widget._object.type, 140);
     Offset position = generatePoint(140, widget._index);
     return Positioned(
         left: position.dx,
