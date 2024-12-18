@@ -5,6 +5,8 @@ import 'auth_сommon.dart';
 import 'package:flutter/gestures.dart';
 
 class LoadAuthScreen extends StatefulWidget {
+  const LoadAuthScreen({super.key});
+
   @override
   _LoadAuthScreenState createState() => _LoadAuthScreenState();
 }
@@ -63,7 +65,7 @@ class _LoadAuthScreenState extends State<LoadAuthScreen> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            prefixIcon: Icon(Icons.lock),
+                            prefixIcon: const Icon(Icons.lock),
                           ),
                         ),
                         const SizedBox(height: 20),

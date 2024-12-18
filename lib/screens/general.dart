@@ -2,10 +2,9 @@ import 'package:flaxum_fileshare/dio_client.dart';
 import 'package:flaxum_fileshare/models/context.dart';
 import 'package:flaxum_fileshare/models/object_.dart';
 import 'package:flutter/material.dart';
-import 'object_list.dart';
+import 'general_child/object_list.dart';
 import 'general_child/file_control_buttons.dart';
 import 'general_child/graph_objects.dart';
-import 'package:dio/dio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../providers/object_provider.dart';
@@ -69,7 +68,7 @@ class _MainApp extends State<MainApp> {
                       future: futureObjectList,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return objectListWidget(context, snapshot.data!);
+                          return ObjectListWidget();
                         } else if (snapshot.hasError) {
                           return Text('ERROR:  ${snapshot.error}');
                         }

@@ -15,6 +15,11 @@ class ObjectProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void remodeItem(String itemId) {
+    _data.removeWhere((item) => item.id == itemId);
+    notifyListeners();
+  }
+
   void updateData(List<Object_> newData) {
     _data = newData;
     notifyListeners();

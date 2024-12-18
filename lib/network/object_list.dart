@@ -2,16 +2,10 @@ import 'package:flaxum_fileshare/dio_client.dart';
 import 'package:flaxum_fileshare/models/context.dart';
 import 'package:flaxum_fileshare/models/object_.dart';
 import 'package:flutter/material.dart';
-import 'object_list.dart';
-import '../screens/general_child/file_control_buttons.dart';
-import '../screens/general_child/graph_objects.dart';
 import 'package:dio/dio.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../providers/object_provider.dart';
 import '../providers/context_provider.dart';
-import '../screens/auth.dart';
-import 'dart:html';
 
 Future<List<Object_>> _fetchObjects(
     BuildContext context, String endpoint, Scope scope) async {
@@ -35,6 +29,7 @@ Future<List<Object_>> _fetchObjects(
   }
 }
 
+/// Посылает список объектов в буфер.
 Future<List<Object_>> getOwnObjects(BuildContext context) async {
   return await _fetchObjects(context, '/object/own/list', Scope.own);
 }

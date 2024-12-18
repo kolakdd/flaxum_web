@@ -10,7 +10,7 @@ import '../../network/object_list.dart';
 
 createFolder(BuildContext context, String name) async {
   final ctx = Provider.of<ContextProvider>(context, listen: false).data;
-  final parentId = ctx.current_dir == null ? null : ctx.current_dir!.id;
+  final parentId = ctx.current_dir?.id;
 
   final response = await dio_unauthorized.post('/folder',
       data: {"name": name, "parent_id": parentId},
@@ -103,7 +103,7 @@ Widget uploadFileButton(BuildContext context) {
               final ctx =
                   Provider.of<ContextProvider>(context, listen: false).data;
               final parentId =
-                  ctx.current_dir == null ? null : ctx.current_dir!.id;
+                  ctx.current_dir?.id;
 
               // Получаем имя файла
               String fileName = picked.files.first.name;

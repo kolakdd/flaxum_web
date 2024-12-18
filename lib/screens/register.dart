@@ -4,6 +4,8 @@ import '../dio_client.dart' show dio_unauthorized;
 import 'auth_сommon.dart';
 
 class RegisterRoute extends StatefulWidget {
+  const RegisterRoute({super.key});
+
   @override
   _RegisterRouteState createState() => _RegisterRouteState();
 }
@@ -65,7 +67,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            prefixIcon: Icon(Icons.lock),
+                            prefixIcon: const Icon(Icons.lock),
                           ),
                         ),
                         const SizedBox(height: 52),
@@ -76,7 +78,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            prefixIcon: Icon(Icons.person),
+                            prefixIcon: const Icon(Icons.person),
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -87,7 +89,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            prefixIcon: Icon(Icons.person),
+                            prefixIcon: const Icon(Icons.person),
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -98,7 +100,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            prefixIcon: Icon(Icons.person),
+                            prefixIcon: const Icon(Icons.person),
                           ),
                         ),
                         const SizedBox(height: 20),
