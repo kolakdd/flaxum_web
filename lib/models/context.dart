@@ -1,3 +1,5 @@
+import 'package:flaxum_fileshare/models/object_.dart';
+
 /// В каких файлах находится
 /// пользователь в данный момент
 enum Scope { own, trash, shared }
@@ -28,6 +30,8 @@ class Context {
   //None - root
   CurrentDirContext? current_dir;
   Scope? current_scope;
+  Object_? uxo_pointer;
 
-  Context(this.current_dir, this.current_scope);
+
+  Context(this.current_dir, this.current_scope, this.uxo_pointer);
 }

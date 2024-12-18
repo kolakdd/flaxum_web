@@ -12,7 +12,7 @@ createFolder(BuildContext context, String name) async {
   final ctx = Provider.of<ContextProvider>(context, listen: false).data;
   final parentId = ctx.current_dir?.id;
 
-  final response = await dio_unauthorized.post('/folder',
+  final response = await dioUnauthorized.post('/folder',
       data: {"name": name, "parent_id": parentId},
       options: Options(contentType: "application/json", headers: {
         "authorization": getTokenFromCookie(),
@@ -102,8 +102,7 @@ Widget uploadFileButton(BuildContext context) {
             if (picked != null) {
               final ctx =
                   Provider.of<ContextProvider>(context, listen: false).data;
-              final parentId =
-                  ctx.current_dir?.id;
+              final parentId = ctx.current_dir?.id;
 
               // Получаем имя файла
               String fileName = picked.files.first.name;
@@ -116,7 +115,7 @@ Widget uploadFileButton(BuildContext context) {
                 ),
               });
 
-              final response = await dio_unauthorized.post(
+              final response = await dioUnauthorized.post(
                 '/upload',
                 data: formData,
                 queryParameters: {"parent_id": parentId},

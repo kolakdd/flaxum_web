@@ -16,7 +16,7 @@ String? getTokenFromCookie() {
   return null;
 }
 
-final dio_unauthorized = Dio(
+final dioUnauthorized = Dio(
   BaseOptions(
     baseUrl: 'http://0.0.0.0:3000',
     headers: {

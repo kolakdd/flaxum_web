@@ -8,6 +8,8 @@ import 'general_child/graph_objects.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../providers/object_provider.dart';
+import '../providers/uxo_provider.dart';
+import 'general_child/uxo_list.dart';
 import '../providers/context_provider.dart';
 import '../network/object_list.dart';
 import 'auth.dart';
@@ -94,14 +96,21 @@ class _MainApp extends State<MainApp> {
                       ],
                     ),
                   ),
-                  // Информация о файле на который навелись
+                  // Информация о файле на который нажали
                   Expanded(
-                    flex: 1,
-                    child: Container(
-                      color: const Color.fromARGB(255, 86, 77, 206),
-                      child: const Center(child: Text("Информация об объекте")),
-                    ),
-                  ),
+                      flex: 1,
+                      child: Container(child: () {
+                        if (Provider.of<UxoProvider>(context).data.isNotEmpty) {
+                          return Column(
+                              children: [
+                              for (final uxoItem in Provider.of<UxoProvider>(context).data)
+                              UxoListStateful(uxoItem: uxoItem,),
+
+                            ],
+                          ); 
+                        }
+                        return const Text('Информация о доступах к файлу');
+                      }())),
                 ],
               ),
             ),

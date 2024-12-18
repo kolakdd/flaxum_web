@@ -5,6 +5,7 @@ import 'screens/general.dart';
 import 'package:provider/provider.dart';
 import 'providers/object_provider.dart';
 import 'providers/context_provider.dart';
+import 'providers/uxo_provider.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => ObjectProvider()),
         ChangeNotifierProvider(create: (context) => ContextProvider()),
+        ChangeNotifierProvider(create: (context) => UxoProvider()),
       ],
       child: MaterialApp(
           title: 'Flaxum',
@@ -26,8 +28,8 @@ class MyApp extends StatelessWidget {
           initialRoute: "/objects",
           routes: <String, WidgetBuilder>{
             '/objects': (context) => const MainApp(),
-            '/auth': (context) => LoadAuthScreen(),
-            '/register': (context) => RegisterRoute(),
+            '/auth': (context) => const LoadAuthScreen(),
+            '/register': (context) => const RegisterRoute(),
           }),
     );
   }

@@ -3,18 +3,6 @@ import '../../models/object_.dart';
 import '../../utils/get_position.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ObjectGraphStateful extends StatefulWidget {
-  const ObjectGraphStateful(
-      {super.key, required Object_ object, required int index})
-      : _object = object,
-        _index = index;
-  final Object_ _object;
-  final int _index;
-
-  @override
-  State<ObjectGraphStateful> createState() => _ObjectGraphStateful();
-}
-
 Widget graphElement(type, double size) {
   return Builder(builder: (context) {
     if (type == "Dir") {
@@ -50,6 +38,19 @@ Widget graphElementTextRiched(element, name) {
       ],
     ),
   );
+}
+
+
+class ObjectGraphStateful extends StatefulWidget {
+  const ObjectGraphStateful(
+      {super.key, required Object_ object, required int index})
+      : _object = object,
+        _index = index;
+  final Object_ _object;
+  final int _index;
+
+  @override
+  State<ObjectGraphStateful> createState() => _ObjectGraphStateful();
 }
 
 class _ObjectGraphStateful extends State<ObjectGraphStateful> {

@@ -9,7 +9,7 @@ import '../providers/context_provider.dart';
 
 Future<List<Object_>> _fetchObjects(
     BuildContext context, String endpoint, Scope scope) async {
-  final response = await dio_unauthorized.get(endpoint,
+  final response = await dioUnauthorized.get(endpoint,
       options: Options(contentType: "application/json", headers: {
         "authorization": getTokenFromCookie(),
       }));

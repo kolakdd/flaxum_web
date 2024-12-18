@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:html';
-import '../dio_client.dart' show dio_unauthorized;
+import '../dio_client.dart' show dioUnauthorized;
 import 'auth_сommon.dart';
 import 'package:flutter/gestures.dart';
 
@@ -71,7 +71,7 @@ class _LoadAuthScreenState extends State<LoadAuthScreen> {
                         const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () async {
-                            var response = await dio_unauthorized
+                            var response = await dioUnauthorized
                                 .post('/user/login', data: {
                               'email': _emailController.text,
                               'password': _passwordController.text,

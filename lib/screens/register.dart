@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:html';
-import '../dio_client.dart' show dio_unauthorized;
+import '../dio_client.dart' show dioUnauthorized;
 import 'auth_сommon.dart';
 
 class RegisterRoute extends StatefulWidget {
@@ -106,14 +106,14 @@ class _RegisterRouteState extends State<RegisterRoute> {
                         const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () async {
-                            var response = await dio_unauthorized
+                            var response = await dioUnauthorized
                                 .post('/user/register', data: {
                               'email': _emailController.text,
                               'password': _passwordController.text,
                               'user_name': _name1Controller.text
                             });
                             if (response.statusCode == 201) {
-                              response = await dio_unauthorized
+                              response = await dioUnauthorized
                                   .post('/user/login', data: {
                                 'email': _emailController.text,
                                 'password': _passwordController.text
