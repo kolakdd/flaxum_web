@@ -28,9 +28,13 @@ class CurrentDirContext {
 
 class Context {
   //None - root
-  CurrentDirContext? current_dir;
   Scope? current_scope;
   Object_? uxo_pointer;
+  List<String> nameStack;
+  List<String> idStack;
 
-  Context(this.current_dir, this.current_scope, this.uxo_pointer);
+  Context(
+    this.current_scope, this.uxo_pointer, 
+    nameStack, idStack
+    ) : nameStack = [], idStack=[];
 }

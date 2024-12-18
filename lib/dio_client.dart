@@ -19,6 +19,7 @@ String? getTokenFromCookie() {
 final dioUnauthorized = Dio(
   BaseOptions(
     baseUrl: 'http://0.0.0.0:3000',
+    connectTimeout: const Duration(seconds: 1),
     headers: {
       'Accept': 'application/json',
     },

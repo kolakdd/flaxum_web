@@ -10,8 +10,7 @@ import '../../network/object_list.dart';
 
 createFolder(BuildContext context, String name) async {
   final ctx = Provider.of<ContextProvider>(context, listen: false).data;
-  final parentId = ctx.current_dir?.id;
-
+  final parentId = ctx.idStack.lastOrNull;
   final response = await dioUnauthorized.post('/folder',
       data: {"name": name, "parent_id": parentId},
       options: Options(contentType: "application/json", headers: {
@@ -36,7 +35,7 @@ Widget createFolderButton(BuildContext context) {
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.zero,
               ),
-              backgroundColor: Colors.blue),
+              backgroundColor: const Color.fromARGB(255, 255, 255, 255)),
           child: const Text(
             'Создать папку',
             style: TextStyle(
@@ -102,7 +101,7 @@ Widget uploadFileButton(BuildContext context) {
             if (picked != null) {
               final ctx =
                   Provider.of<ContextProvider>(context, listen: false).data;
-              final parentId = ctx.current_dir?.id;
+              final parentId = ctx.idStack.lastOrNull;
 
               // Получаем имя файла
               String fileName = picked.files.first.name;
@@ -155,7 +154,7 @@ Widget myFiles(BuildContext context) {
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           onPressed: () async {
-            await getOwnObjects(context);
+            await getOwnObjects(context, null);
           }));
 }
 
@@ -193,6 +192,6 @@ Widget sharedFiles(BuildContext context) {
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           onPressed: () async {
-            await getSharedObjects(context);
+            await getSharedObjects(context, null);
           }));
 }

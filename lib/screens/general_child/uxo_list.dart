@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/uxo.dart';
 
-
 class UxoListStateful extends StatefulWidget {
   const UxoListStateful({
     super.key,

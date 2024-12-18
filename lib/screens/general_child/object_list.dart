@@ -65,27 +65,24 @@ class _ObjectListWidgetState extends State<ObjectListWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        elementIcon(item.type, 25),
+                        elementIcon(item.type, 25, item),
                         const Spacer(flex: 1),
                         Expanded(
-                          flex: 4, 
+                          flex: 4,
                           child: Text(item.name,
                               style: commonTextStyle(),
                               overflow: TextOverflow.ellipsis),
                         ),
-                        const Spacer(
-                            flex:
-                                1),Expanded(
-                          flex: 2, 
+                        const Spacer(flex: 1),
+                        Expanded(
+                          flex: 2,
                           child: Text(formatBytes(item.size),
                               style: commonTextStyle(),
                               overflow: TextOverflow.ellipsis),
                         ),
-                        const Spacer(
-                            flex:
-                                1), 
+                        const Spacer(flex: 1),
                         Expanded(
-                          flex: 4, 
+                          flex: 4,
                           child: Text(formatDateTime(item.created_at),
                               style: commonTextStyle(),
                               overflow: TextOverflow.ellipsis),

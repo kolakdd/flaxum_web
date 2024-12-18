@@ -1,15 +1,34 @@
+import 'package:flaxum_fileshare/network/object_list.dart';
+import 'package:flaxum_fileshare/providers/context_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../models/object_.dart';
+import '../../models/context.dart';
 import '../../utils/get_position.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-Widget elementIcon(type, double size) {
+Widget elementIcon(type, double size, Object_ item) {
   return Builder(builder: (context) {
     if (type == "Dir") {
       return IconButton(
           icon: SvgPicture.asset('assets/folder.svg',
               width: size, height: size, semanticsLabel: 'Folder'),
-          onPressed: () {});
+          onPressed: () async {
+            switch (Provider.of<ContextProvider>(context, listen: false)
+                .data
+                .current_scope!) {
+              case Scope.own:
+                getOwnObjects(context, item.id);
+                Provider.of<ContextProvider>(context, listen: false).addBread(item);
+                break;
+              case Scope.trash:
+                break;
+              case Scope.shared:
+                getSharedObjects(context, item.id);
+                Provider.of<ContextProvider>(context, listen: false).addBread(item);
+                break;
+            }
+          });
     } else {
       return IconButton(
           icon: SvgPicture.asset('assets/file.svg',
@@ -55,7 +74,7 @@ class ObjectGraphStateful extends StatefulWidget {
 class _ObjectGraphStateful extends State<ObjectGraphStateful> {
   @override
   Widget build(BuildContext context) {
-    final element = elementIcon(widget._object.type, 140);
+    final element = elementIcon(widget._object.type, 140, widget._object);
     Offset position = generatePoint(140, widget._index);
     return Positioned(
         left: position.dx,
@@ -66,13 +85,16 @@ class _ObjectGraphStateful extends State<ObjectGraphStateful> {
               opacity: 0.3,
               child: graphElementTextRiched(element, widget._object.name),
             ),
-            onDragEnd: (details) => setState(() {
-                  double dx =
-                      details.offset.dx - MediaQuery.of(context).size.width / 3;
-                  double dy = details.offset.dy -
-                      MediaQuery.of(context).size.height / 15;
-                  position = Offset(dx, dy);
-                }),
+            onDragEnd: (details) => {
+                // setState(() {
+                //   double dx =
+                //       details.offset.dx - MediaQuery.of(context).size.width / 3;
+                //   double dy = details.offset.dy -
+                //       MediaQuery.of(context).size.height / 15;
+                //   position = Offset(dx, dy);
+                // }
+                // )
+                },
             child: graphElementTextRiched(element, widget._object.name)));
   }
 }

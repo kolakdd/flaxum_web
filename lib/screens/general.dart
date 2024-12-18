@@ -31,7 +31,7 @@ class _MainApp extends State<MainApp> {
     super.initState();
     final cookie = getTokenFromCookie();
     if (cookie != null) {
-      futureObjectList = getOwnObjects(context);
+      futureObjectList = getOwnObjects(context, null);
     }
   }
 
@@ -43,10 +43,50 @@ class _MainApp extends State<MainApp> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           toolbarHeight: MediaQuery.of(context).size.height / 15,
-          title: Text(Provider.of<ContextProvider>(context, listen: false)
-              .data
-              .current_scope!
-              .toDisplayString(), style: commonTextStyle(),),
+          title: Row(children: [
+                Text(
+            Provider.of<ContextProvider>(context, listen: false)
+                .data
+                .current_scope!
+                .toDisplayString() ,
+            style: commonTextStyle(),
+          ),
+          const SizedBox(width: 20),
+           if (Provider.of<ContextProvider>(context, listen: false)
+                .data.idStack.isNotEmpty) ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero,
+              ),
+              backgroundColor: const Color.fromARGB(255, 255, 255, 255)),
+          child:  const Text(
+            'назад',
+            style: TextStyle(
+                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          onPressed: () async {
+              switch (Provider.of<ContextProvider>(context, listen: false).data.current_scope!){
+                case Scope.own: {
+                  Provider.of<ContextProvider>(context, listen: false).data.idStack.removeLast();
+                  Provider.of<ContextProvider>(context, listen: false).data.nameStack.removeLast();
+                  await getOwnObjects(context, Provider.of<ContextProvider>(context, listen: false).data.idStack.lastOrNull);
+                }
+                case Scope.shared: {
+                  Provider.of<ContextProvider>(context, listen: false).data.idStack.removeLast();
+                  Provider.of<ContextProvider>(context, listen: false).data.nameStack.removeLast();
+                  await getSharedObjects(context, Provider.of<ContextProvider>(context, listen: false).data.idStack.lastOrNull);
+                }
+                case _ : break; 
+
+              }
+          }),
+          const SizedBox(width: 20),
+
+               Text(
+            Provider.of<ContextProvider>(context, listen: false)
+                .data.nameStack.join("/") ,
+            style: commonTextStyle(),
+          ),],),
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.login),
@@ -68,38 +108,48 @@ class _MainApp extends State<MainApp> {
                   Column(
                     children: [
                       SizedBox(
-                        height: 30, width: 500,
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text("Название",  style: commonTextStyle(), overflow: TextOverflow.ellipsis),
-                        const Spacer(flex: 1,),
-                        Text("Размер", style: commonTextStyle(), overflow: TextOverflow.ellipsis),
-                        const Spacer(flex: 1,),
-                        Text("Дата создания",  style: commonTextStyle(), overflow: TextOverflow.ellipsis),
-                      ],))
-                      ,
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 3,
-                      height: MediaQuery.of(context).size.height /1.3,
-                      child: FutureBuilder<List<Object_>>(
-                      future: futureObjectList,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ObjectListWidget();
-                        } else if (snapshot.hasError) {
-                          return Text('ERROR:  ${snapshot.error}');
-                        }
-                        return Center(
-                          child: LoadingAnimationWidget.discreteCircle(
-                            color: Colors.green,
-                            size: 200,
-                          ),
-                        );
-                      },
-                    ))
+                          height: 30,
+                          width: 500,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text("Название",
+                                  style: commonTextStyle(),
+                                  overflow: TextOverflow.ellipsis),
+                              const Spacer(
+                                flex: 1,
+                              ),
+                              Text("Размер",
+                                  style: commonTextStyle(),
+                                  overflow: TextOverflow.ellipsis),
+                              const Spacer(
+                                flex: 1,
+                              ),
+                              Text("Дата создания",
+                                  style: commonTextStyle(),
+                                  overflow: TextOverflow.ellipsis),
+                            ],
+                          )),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width / 3,
+                          height: MediaQuery.of(context).size.height / 1.3,
+                          child: FutureBuilder<List<Object_>>(
+                            future: futureObjectList,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return ObjectListWidget();
+                              } else if (snapshot.hasError) {
+                                return Text('ERROR:  ${snapshot.error}');
+                              }
+                              return Center(
+                                child: LoadingAnimationWidget.discreteCircle(
+                                  color: Colors.green,
+                                  size: 200,
+                                ),
+                              );
+                            },
+                          ))
                     ],
-
                   ),
                   // визуальное файловое пространство
                   Expanded(
@@ -120,12 +170,14 @@ class _MainApp extends State<MainApp> {
                       child: Container(child: () {
                         if (Provider.of<UxoProvider>(context).data.isNotEmpty) {
                           return Column(
-                              children: [
-                              for (final uxoItem in Provider.of<UxoProvider>(context).data)
-                              UxoListStateful(uxoItem: uxoItem,),
-
+                            children: [
+                              for (final uxoItem
+                                  in Provider.of<UxoProvider>(context).data)
+                                UxoListStateful(
+                                  uxoItem: uxoItem,
+                                ),
                             ],
-                          ); 
+                          );
                         }
                         return const Text('Информация о доступах к файлу');
                       }())),

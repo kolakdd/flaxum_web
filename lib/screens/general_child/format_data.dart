@@ -6,7 +6,7 @@ TextStyle commonTextStyle() {
 }
 
 String formatDateTime(DateTime date) {
-    return "${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year}";
+  return "${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year}";
 }
 
 String formatBytes(int? bytes) {
