@@ -1,13 +1,18 @@
-import 'package:flaxum_fileshare/screens/register.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
-import 'screens/auth.dart';
-import 'screens/general.dart';
+
 import 'package:provider/provider.dart';
-import 'providers/object_provider.dart';
-import 'providers/context_provider.dart';
-import 'providers/uxo_provider.dart';
+
+import 'package:flaxum_fileshare/screens/login_screen/register.dart';
+import 'package:flaxum_fileshare/screens/login_screen/auth.dart';
+import 'package:flaxum_fileshare/screens/general_app/app.dart';
+
+import 'package:flaxum_fileshare/providers/object_provider.dart';
+import 'package:flaxum_fileshare/providers/position_provider.dart';
+import 'package:flaxum_fileshare/providers/uxo_provider.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -19,10 +24,12 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ObjectProvider()),
-        ChangeNotifierProvider(create: (context) => ContextProvider()),
+        ChangeNotifierProvider(create: (context) => PositionProvider()),
         ChangeNotifierProvider(create: (context) => UxoProvider()),
       ],
       child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          showSemanticsDebugger: false,
           title: 'Flaxum',
           home: const MainApp(),
           initialRoute: "/objects",

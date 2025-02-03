@@ -1,9 +1,12 @@
-import 'package:flutter_dropzone/flutter_dropzone.dart';
-import 'dart:typed_data' show Uint8List, BytesBuilder;
 import 'dart:math' show min;
 import 'dart:async' show Completer;
+import 'dart:typed_data' show Uint8List, BytesBuilder;
 
 import 'package:flutter/material.dart';
+
+import 'package:flutter_dropzone/flutter_dropzone.dart';
+
+// todo:
 
 class DropZoneStateful extends StatefulWidget {
   const DropZoneStateful({super.key});

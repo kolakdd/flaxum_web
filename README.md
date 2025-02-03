@@ -19,11 +19,8 @@ flutter run --web-header=Cross-Origin-Opener-Policy=same-origin --web-header=Cro
 flutter pub run build_runner build
 ```
 
-Использование генерации от rust_flutter_bridge
+Для запуска в сети:
 
 ```sh
-flutter_rust_bridge_codegen generate --watch
-flutter_rust_bridge_codegen build-web
+flutter run -d web-server --web-hostname 192.168.1.11 --web-port 8080 --web-browser-flag "--disable-web-security"
 ```
-
-

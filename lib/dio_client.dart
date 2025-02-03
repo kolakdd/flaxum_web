@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:dio/dio.dart';
 import 'dart:html';
 
@@ -18,10 +20,10 @@ String? getTokenFromCookie() {
 
 final dioUnauthorized = Dio(
   BaseOptions(
-    baseUrl: 'http://0.0.0.0:3000',
+    baseUrl: dotenv.env['BACKEND_ENDPOINT']!,
     connectTimeout: const Duration(seconds: 1),
     headers: {
-      'Accept': 'application/json',
+      'Content-Type': 'application/json',
     },
     validateStatus: (int? status) {
       return status != null;

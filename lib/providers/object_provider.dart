@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
-import '../models/object_.dart';
 
+import 'package:flaxum_fileshare/models/object_/object_.dart';
+
+// Api текущего скоупа объектов
 class ObjectProvider extends ChangeNotifier {
   List<Object_> _data = [];
 

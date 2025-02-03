@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
-import '../models/uxo.dart';
 
+import 'package:flaxum_fileshare/models/uxo/uxo.dart';
+
+// UserXObject class Notifier
 class UxoProvider extends ChangeNotifier {
   List<UxoItem> _data = [];
   List<UxoItem> get data => _data;
