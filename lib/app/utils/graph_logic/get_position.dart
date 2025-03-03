@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'package:flaxum_fileshare/app/graph_logic/geometry.dart';
+import 'package:flaxum_fileshare/app/utils/graph_logic/geometry.dart';
 
 /// Функция для случайного расположения точек на окружности
 Offset pointOnCircle(Circle circle) {

@@ -1,18 +1,18 @@
 import 'package:flutter/foundation.dart';
 
-import 'package:flaxum_fileshare/app/models/object_/object_.dart';
+import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
 
 // Api текущего скоупа объектов
 class ObjectProvider extends ChangeNotifier {
-  List<Object_> _data = [];
+  List<FlaxumObject> _data = [];
 
-  List<Object_> get data => _data;
+  List<FlaxumObject> get data => _data;
 
   int length() {
     return _data.length;
   }
 
-  void addItem(Object_ newItem) {
+  void addItem(FlaxumObject newItem) {
     _data.add(newItem);
     notifyListeners();
   }
@@ -22,7 +22,7 @@ class ObjectProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateData(List<Object_> newData) {
+  void updateData(List<FlaxumObject> newData) {
     _data = newData;
     notifyListeners();
   }

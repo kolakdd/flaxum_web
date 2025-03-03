@@ -1,3 +1,4 @@
+import 'package:flaxum_fileshare/app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -21,9 +22,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ObjectProvider()),
         ChangeNotifierProvider(create: (context) => PositionProvider()),
+        ChangeNotifierProvider(create: (context) => ObjectProvider()),
         ChangeNotifierProvider(create: (context) => UxoProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

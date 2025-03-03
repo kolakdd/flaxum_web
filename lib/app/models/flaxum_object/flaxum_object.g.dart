@@ -1,67 +1,68 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'object_.dart';
+part of 'flaxum_object.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Object_ _$Object_FromJson(Map<String, dynamic> json) => Object_(
+FlaxumObject _$FlaxumObjectFromJson(Map<String, dynamic> json) => FlaxumObject(
       json['id'] as String,
-      json['parent_id'] as String?,
-      json['owner_id'] as String,
-      json['creator_id'] as String,
+      json['parentId'] as String?,
+      json['ownerId'] as String,
+      json['creatorId'] as String,
       json['name'] as String,
       (json['size'] as num?)?.toInt(),
       json['type'] as String,
       json['mimetype'] as String?,
-      DateTime.parse(json['created_at'] as String),
-      json['updated_at'] == null
+      DateTime.parse(json['createdAt'] as String),
+      json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['updated_at'] as String),
-      json['in_trash'] as bool,
+          : DateTime.parse(json['updatedAt'] as String),
+      json['inTrash'] as bool,
       json['eliminated'] as bool,
     );
 
-Map<String, dynamic> _$Object_ToJson(Object_ instance) => <String, dynamic>{
+Map<String, dynamic> _$FlaxumObjectToJson(FlaxumObject instance) =>
+    <String, dynamic>{
       'id': instance.id,
-      'parent_id': instance.parent_id,
-      'owner_id': instance.owner_id,
-      'creator_id': instance.creator_id,
+      'parentId': instance.parentId,
+      'ownerId': instance.ownerId,
+      'creatorId': instance.creatorId,
       'name': instance.name,
       'size': instance.size,
       'type': instance.type,
       'mimetype': instance.mimetype,
-      'created_at': instance.created_at.toIso8601String(),
-      'updated_at': instance.updated_at?.toIso8601String(),
-      'in_trash': instance.in_trash,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'inTrash': instance.inTrash,
       'eliminated': instance.eliminated,
     };
 
 GetOwnObjectsResponse _$GetOwnObjectsResponseFromJson(
         Map<String, dynamic> json) =>
     GetOwnObjectsResponse(
-      (json['data'] as List<dynamic>)
-          .map((e) => Object_.fromJson(e as Map<String, dynamic>))
+      (json['items'] as List<dynamic>)
+          .map((e) => FlaxumObject.fromJson(e as Map<String, dynamic>))
           .toList(),
       (json['limit'] as num).toInt(),
       (json['offset'] as num).toInt(),
-      json['status'] as String,
+      (json['total'] as num).toInt(),
     );
 
 Map<String, dynamic> _$GetOwnObjectsResponseToJson(
         GetOwnObjectsResponse instance) =>
     <String, dynamic>{
-      'data': instance.data,
+      'items': instance.items,
       'limit': instance.limit,
       'offset': instance.offset,
-      'status': instance.status,
+      'total': instance.total,
     };
 
 CreateFolderResponse _$CreateFolderResponseFromJson(
         Map<String, dynamic> json) =>
     CreateFolderResponse(
-      Object_.fromJson(json['data'] as Map<String, dynamic>),
+      FlaxumObject.fromJson(json['data'] as Map<String, dynamic>),
       json['status'] as String,
     );
 

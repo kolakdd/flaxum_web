@@ -1,23 +1,31 @@
+import 'package:flaxum_fileshare/app/providers/uxo_provider.dart';
+import 'package:flaxum_fileshare/app/ui/objects_screen/uxo_list.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FileDetails extends StatelessWidget {
-  const FileDetails({super.key});
+  FileDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var uxoItems = Provider.of<UxoProvider>(context, listen: true).data;
     return Container(
       width: 300,
       color: Colors.grey[100],
       padding: const EdgeInsets.all(16),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Some body wants told me.",
+          const Text(
+            "О файле:",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 16),
-          Text('Дополнительная информация о файле...'),
+          const SizedBox(height: 16),
+          SizedBox(
+              height: 500,
+              child: uxoItems.isEmpty
+                  ? const Text('Нажмите на файл.')
+                  : UxoListStateful(uxoItems: uxoItems))
         ],
       ),
     );

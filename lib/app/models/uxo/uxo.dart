@@ -4,10 +4,10 @@ part 'uxo.g.dart';
 
 @JsonSerializable()
 class OwnerUser {
-  final String owner_email;
-  final String owner_id;
+  final String ownerEmail;
+  final String ownerId;
 
-  OwnerUser(this.owner_email, this.owner_id);
+  OwnerUser(this.ownerEmail, this.ownerId);
 
   factory OwnerUser.fromJson(Map<String, dynamic> json) =>
       _$OwnerUserFromJson(json);
@@ -17,22 +17,22 @@ class OwnerUser {
 
 @JsonSerializable()
 class Uxo {
-  final String user_id;
-  final String object_id;
-  final bool can_delete;
-  final bool can_edit;
-  final bool can_read;
-  final DateTime created_at;
-  final DateTime? updated_at;
+  final String userId;
+  final String objectId;
+  final bool canDelete;
+  final bool canEdit;
+  final bool canRead;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
 
   Uxo(
-    this.user_id,
-    this.object_id,
-    this.can_delete,
-    this.can_edit,
-    this.can_read,
-    this.created_at,
-    this.updated_at,
+    this.userId,
+    this.objectId,
+    this.canDelete,
+    this.canEdit,
+    this.canRead,
+    this.createdAt,
+    this.updatedAt,
   );
 
   factory Uxo.fromJson(Map<String, dynamic> json) => _$UxoFromJson(json);
@@ -42,10 +42,10 @@ class Uxo {
 
 @JsonSerializable()
 class UxoItem {
-  OwnerUser owner_user;
+  OwnerUser ownerUser;
   Uxo uxo;
 
-  UxoItem(this.owner_user, this.uxo);
+  UxoItem(this.ownerUser, this.uxo);
 
   factory UxoItem.fromJson(Map<String, dynamic> json) =>
       _$UxoItemFromJson(json);
@@ -55,10 +55,9 @@ class UxoItem {
 
 @JsonSerializable()
 class GetUxoResponse {
-  final List<UxoItem> data;
-  final String status;
+  final List<UxoItem> items;
 
-  GetUxoResponse(this.data, this.status);
+  GetUxoResponse(this.items);
 
   factory GetUxoResponse.fromJson(Map<String, dynamic> json) =>
       _$GetUxoResponseFromJson(json);

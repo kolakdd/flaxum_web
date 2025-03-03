@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flaxum_fileshare/app/models/system_position.dart';
-import 'package:flaxum_fileshare/app/models/object_/object_.dart';
+import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
 
 import 'package:flaxum_fileshare/app/providers/object_provider.dart';
 import 'package:flaxum_fileshare/app/providers/position_provider.dart';
@@ -24,9 +24,8 @@ class _ObjectListWidgetState extends State<ObjectListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    List<Object_> objectList = Provider.of<ObjectProvider>(context).data;
+    List<FlaxumObject> objectList = Provider.of<ObjectProvider>(context).data;
     MainPosition mainPosition = Provider.of<PositionProvider>(context).data;
-
     return Column(
       children: [
         itemHeader(),

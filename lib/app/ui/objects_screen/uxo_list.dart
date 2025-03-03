@@ -25,70 +25,78 @@ class _UxoListStateful extends State<UxoListStateful> {
         var item = widget._uxoItems[idx];
         return Column(children: [
           Container(
-            padding: const EdgeInsets.all(1.0),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(
-                    1.0,
-                    1.0,
+              padding: const EdgeInsets.all(1.0),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(
+                      1.0,
+                      1.0,
+                    ),
+                    blurRadius: 2.0,
+                    spreadRadius: 1.0,
                   ),
-                  blurRadius: 2.0,
-                  spreadRadius: 1.0,
+                ],
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(12),
+                  topRight: Radius.circular(12),
                 ),
-              ],
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(12),
-                topRight: Radius.circular(12),
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // const Icon(Icons.person_add_alt_sharp),
-                const Spacer(flex: 1),
-                Expanded(
-                  flex: 4,
-                  child: Text(item.owner_user.owner_email,
-                      style: utils.styleTextUtil.commonTextStyle(),
-                      overflow: TextOverflow.ellipsis),
+              child: SizedBox(
+                width: 500,
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.person_add_alt_sharp),
+                    Column(
+                      children: [
+                        const Spacer(flex: 1),
+                        Text(item.ownerUser.ownerEmail,
+                            style: utils.styleTextUtil.commonTextStyle(),
+                            overflow: TextOverflow.ellipsis),
+                        const Spacer(flex: 1),
+                        Row(
+                          children: [
+                            Text(
+                              "read",
+                              style: utils.styleTextUtil.commonTextStyle(),
+                            ),
+                            Checkbox(
+                              isError: true,
+                              tristate: true,
+                              value: item.uxo.canRead,
+                              onChanged: null,
+                            ),
+                            Text(
+                              "edit",
+                              style: utils.styleTextUtil.commonTextStyle(),
+                            ),
+                            Checkbox(
+                              isError: true,
+                              tristate: true,
+                              value: item.uxo.canEdit,
+                              onChanged: null,
+                            ),
+                            Text(
+                              "delete",
+                              style: utils.styleTextUtil.commonTextStyle(),
+                            ),
+                            Checkbox(
+                              isError: true,
+                              tristate: false,
+                              value: item.uxo.canDelete,
+                              onChanged: null,
+                            ),
+                          ],
+                        )
+                      ],
+                    )
+                  ],
                 ),
-                const Spacer(flex: 1),
-                Text(
-                  "read",
-                  style: utils.styleTextUtil.commonTextStyle(),
-                ),
-                Checkbox(
-                  isError: true,
-                  tristate: true,
-                  value: item.uxo.can_read,
-                  onChanged: null,
-                ),
-                Text(
-                  "edit",
-                  style: utils.styleTextUtil.commonTextStyle(),
-                ),
-                Checkbox(
-                  isError: true,
-                  tristate: true,
-                  value: item.uxo.can_edit,
-                  onChanged: null,
-                ),
-                Text(
-                  "delete",
-                  style: utils.styleTextUtil.commonTextStyle(),
-                ),
-                Checkbox(
-                  isError: true,
-                  tristate: true,
-                  value: item.uxo.can_delete,
-                  onChanged: null,
-                ),
-              ],
-            ),
-          ),
+              )),
         ]);
       },
     );

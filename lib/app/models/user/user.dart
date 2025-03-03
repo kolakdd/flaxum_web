@@ -2,34 +2,63 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
+// --------=== User public ===---------
+
+@JsonSerializable()
+class UserPublic {
+  final String id;
+  final String name1;
+  final String? name2;
+  final String? name3;
+  final String email;
+  final String roleType;
+  final int storageSize;
+
+  UserPublic(
+    this.id,
+    this.name1,
+    this.name2,
+    this.name3,
+    this.email,
+    this.roleType,
+    this.storageSize,
+  );
+
+  factory UserPublic.fromJson(Map<String, dynamic> json) =>
+      _$UserPublicFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserPublicToJson(this);
+}
+
+// --------=== User ===---------
 @JsonSerializable()
 class User {
   final String id;
-  final String name_1;
-  final String? name_2;
-  final String? name_3;
+  final String name1;
+  final String? name2;
+  final String? name3;
   final String email;
-  final String role_type;
-  final bool is_deleted;
-  final DateTime? deleted_at;
-  final bool is_blocked;
-  final DateTime? blocked_at;
-  final int storage_size;
+  final String roleType;
+  final bool isDeleted;
+  final DateTime? deletedAt;
+  final bool isBlocked;
+  final DateTime? blockedAt;
+  final int storageSize;
   final DateTime createdAt;
   final DateTime? updatedAt;
 
   User(
       this.id,
-      this.name_1,
-      this.name_2,
-      this.name_3,
+      this.name1,
+      this.name2,
+      this.name3,
       this.email,
-      this.role_type,
-      this.is_deleted,
-      this.deleted_at,
-      this.is_blocked,
-      this.blocked_at,
-      this.storage_size,
+      this.roleType,
+      this.isDeleted,
+      this.deletedAt,
+      this.isBlocked,
+      this.blockedAt,
+      this.storageSize,
       this.createdAt,
       this.updatedAt);
 

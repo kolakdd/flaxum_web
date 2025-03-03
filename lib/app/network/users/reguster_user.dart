@@ -1,5 +1,5 @@
-import 'package:flaxum_fileshare/app/api/dio_client.dart';
-import 'package:flaxum_fileshare/app/api/users/login_user.dart';
+import 'package:flaxum_fileshare/app/network/dio_client.dart';
+import 'package:flaxum_fileshare/app/network/users/login_user.dart';
 
 // Зарегестрировать пользователя, после чего
 // авторизовать и вернуть токен авторизации
@@ -8,7 +8,7 @@ Future<String?> registerUser(
   var response = await dioUnauthorized.post('/user/register', data: {
     'email': email,
     'password': password,
-    'user_name': userName,
+    'userName': userName,
   });
   if (response.statusCode == 201) {
     return await authorizationUser(email, password);

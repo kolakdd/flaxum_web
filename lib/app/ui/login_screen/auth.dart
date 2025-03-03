@@ -3,8 +3,8 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 
-import 'package:flaxum_fileshare/app/icon_widget/flaxum_logo.dart';
-import 'package:flaxum_fileshare/app/api/users/login_user.dart';
+import 'package:flaxum_fileshare/app/ui/icon_widget/flaxum_logo.dart';
+import 'package:flaxum_fileshare/app/network/users/login_user.dart';
 
 // Страница авторизации
 class LoadAuthScreen extends StatefulWidget {
@@ -74,6 +74,7 @@ class _LoadAuthScreenState extends State<LoadAuthScreen> {
                           ),
                         ),
                         const SizedBox(height: 20),
+                        // Кнопка логина
                         ElevatedButton(
                           onPressed: () async {
                             final String? authToken = await authorizationUser(
@@ -95,22 +96,23 @@ class _LoadAuthScreenState extends State<LoadAuthScreen> {
                           ),
                           child: const Text('Войти'),
                         ),
-                        const SizedBox(height: 20),
-                        RichText(
-                          text: TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.blue,
-                                  ),
-                                  text: ' Регистрация',
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () => Navigator.of(context)
-                                        .pushReplacementNamed('/register')),
-                            ],
-                          ),
-                        ),
+
+                        //   const SizedBox(height: 20),
+                        //   RichText(
+                        //     text: TextSpan(
+                        //       children: <TextSpan>[
+                        //         TextSpan(
+                        //             style: const TextStyle(
+                        //               fontSize: 14,
+                        //               color: Colors.blue,
+                        //             ),
+                        //             text: ' Регистрация',
+                        //             recognizer: TapGestureRecognizer()
+                        //               ..onTap = () => Navigator.of(context)
+                        //                   .pushReplacementNamed('/register')),
+                        //       ],
+                        //     ),
+                        //   ),
                       ],
                     ),
                   ),

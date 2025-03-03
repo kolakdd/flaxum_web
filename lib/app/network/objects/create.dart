@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flaxum_fileshare/app/models/object_/object_.dart';
-import 'package:flaxum_fileshare/app/api/dio_client.dart';
+import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
+import 'package:flaxum_fileshare/app/network/dio_client.dart';
 import 'package:flaxum_fileshare/app/providers/position_provider.dart';
 import 'package:dio/dio.dart';
 
 // Создать папку в позиции провайдера
-Future<Object_> createFolder(BuildContext context, String name) async {
+Future<FlaxumObject> createFolder(BuildContext context, String name) async {
   final currentPosition =
       Provider.of<PositionProvider>(context, listen: false).data;
   final parentId = currentPosition.idStack.lastOrNull;
   final response = await dioUnauthorized.post('/folder',
-      data: {"name": name, "parent_id": parentId},
+      data: {"name": name, "parentId": parentId},
       options: Options(contentType: "application/json", headers: {
-        "authorization": getTokenFromCookie(),
+        "authorization": "Bearer ${getTokenFromCookie()}",
       }));
 
   if (response.statusCode == 201) {
@@ -27,14 +27,15 @@ Future<Object_> createFolder(BuildContext context, String name) async {
 }
 
 // Создать папку в позиции провайдера
-Future<Object_> uploadSingleFile(FormData formData, String? parentId) async {
+Future<FlaxumObject> uploadSingleFile(
+    FormData formData, String? parentId) async {
   final response = await dioUnauthorized.post(
     '/upload',
     data: formData,
-    queryParameters: {"parent_id": parentId},
+    queryParameters: {"parentId": parentId},
     options: Options(
       headers: {
-        "Authorization": getTokenFromCookie(),
+        "authorization": "Bearer ${getTokenFromCookie()}",
         "Content-Type": "multipart/form-data",
       },
     ),

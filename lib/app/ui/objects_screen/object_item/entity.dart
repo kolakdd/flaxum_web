@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:flaxum_fileshare/app/models/system_position.dart';
-import 'package:flaxum_fileshare/app/models/object_/object_.dart';
+import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
 
-import 'package:flaxum_fileshare/app/icon_widget/element_icons.dart';
+import 'package:flaxum_fileshare/app/ui/icon_widget/element_icons.dart';
 import 'package:flaxum_fileshare/app/utils/utils_class.dart';
 import 'package:flaxum_fileshare/app/ui/objects_screen/object_item/futures.dart';
 
 // Виджет для одного элемента списка
 class ObjectItemWidget extends StatefulWidget {
-  final Object_ item;
+  final FlaxumObject item;
   final MainPosition mainPosition;
 
   const ObjectItemWidget({
@@ -37,7 +37,7 @@ class _ObjectItemWidgetState extends State<ObjectItemWidget> {
   }
 
   // Главный виджет объекта
-  Widget objectItem(BuildContext context, Object_ item,
+  Widget objectItem(BuildContext context, FlaxumObject item,
       MainPosition mainPosition, bool isHovered) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -92,7 +92,7 @@ class _ObjectItemWidgetState extends State<ObjectItemWidget> {
               const Spacer(flex: 1),
               // дата создания файла
               Expanded(
-                child: Text(utils.formatDataUtil.fDateTime(item.created_at),
+                child: Text(utils.formatDataUtil.fDateTime(item.createdAt),
                     style: utils.styleTextUtil.commonTextStyle(),
                     overflow: TextOverflow.ellipsis),
               ),

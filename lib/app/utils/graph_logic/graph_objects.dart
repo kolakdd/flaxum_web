@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:flaxum_fileshare/app/icon_widget/element_icons.dart';
-import 'package:flaxum_fileshare/app/models/object_/object_.dart';
-import 'package:flaxum_fileshare/app/graph_logic/get_position.dart';
+import 'package:flaxum_fileshare/app/ui/icon_widget/element_icons.dart';
+import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
+import 'package:flaxum_fileshare/app/utils/graph_logic/get_position.dart';
 
 Widget graphElementTextRiched(element, name) {
   return SizedBox(
@@ -27,10 +27,10 @@ Widget graphElementTextRiched(element, name) {
 
 class ObjectGraphStateful extends StatefulWidget {
   const ObjectGraphStateful(
-      {super.key, required Object_ object, required int index})
+      {super.key, required FlaxumObject object, required int index})
       : _object = object,
         _index = index;
-  final Object_ _object;
+  final FlaxumObject _object;
   final int _index;
 
   @override

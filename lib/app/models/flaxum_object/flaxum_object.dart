@@ -1,50 +1,50 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'object_.g.dart';
+part 'flaxum_object.g.dart';
 
 @JsonSerializable()
-class Object_ {
+class FlaxumObject {
   final String id;
-  final String? parent_id;
-  final String owner_id;
-  final String creator_id;
+  final String? parentId;
+  final String ownerId;
+  final String creatorId;
   final String name;
   final int? size;
   final String type;
   final String? mimetype;
-  final DateTime created_at;
-  final DateTime? updated_at;
-  final bool in_trash;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  final bool inTrash;
   final bool eliminated;
 
-  Object_(
+  FlaxumObject(
       this.id,
-      this.parent_id,
-      this.owner_id,
-      this.creator_id,
+      this.parentId,
+      this.ownerId,
+      this.creatorId,
       this.name,
       this.size,
       this.type,
       this.mimetype,
-      this.created_at,
-      this.updated_at,
-      this.in_trash,
+      this.createdAt,
+      this.updatedAt,
+      this.inTrash,
       this.eliminated);
 
-  factory Object_.fromJson(Map<String, dynamic> json) =>
-      _$Object_FromJson(json);
+  factory FlaxumObject.fromJson(Map<String, dynamic> json) =>
+      _$FlaxumObjectFromJson(json);
 
-  Map<String, dynamic> toJson() => _$Object_ToJson(this);
+  Map<String, dynamic> toJson() => _$FlaxumObjectToJson(this);
 }
 
 @JsonSerializable()
 class GetOwnObjectsResponse {
-  final List<Object_> data;
+  final List<FlaxumObject> items;
   final int limit;
   final int offset;
-  final String status;
+  final int total;
 
-  GetOwnObjectsResponse(this.data, this.limit, this.offset, this.status);
+  GetOwnObjectsResponse(this.items, this.limit, this.offset, this.total);
 
   factory GetOwnObjectsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetOwnObjectsResponseFromJson(json);
@@ -54,7 +54,7 @@ class GetOwnObjectsResponse {
 
 @JsonSerializable()
 class CreateFolderResponse {
-  final Object_ data;
+  final FlaxumObject data;
   final String status;
 
   CreateFolderResponse(this.data, this.status);

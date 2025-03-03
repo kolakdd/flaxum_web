@@ -19,6 +19,8 @@ String? getTokenFromCookie() {
   return null;
 }
 
+//todo: add auth dependency
+
 final dioUnauthorized = Dio(
   BaseOptions(
     baseUrl: dotenv.env['BACKEND_ENDPOINT']!,

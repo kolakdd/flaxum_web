@@ -2,8 +2,8 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 
-import 'package:flaxum_fileshare/app/api/users/reguster_user.dart';
-import 'package:flaxum_fileshare/app/icon_widget/flaxum_logo.dart';
+import 'package:flaxum_fileshare/app/network/users/reguster_user.dart';
+import 'package:flaxum_fileshare/app/ui/icon_widget/flaxum_logo.dart';
 
 // Страница регистрации
 class RegisterRoute extends StatefulWidget {

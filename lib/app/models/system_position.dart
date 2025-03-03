@@ -1,7 +1,6 @@
-import 'package:flaxum_fileshare/app/models/object_/object_.dart';
+import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
 
-// В каких файлах находится
-// пользователь в данный момент
+// В каких какой позиции находится система в данный момент
 enum Scope { own, trash, shared }
 
 extension ScopeExtension on Scope {
@@ -29,7 +28,7 @@ class CurrentDirContext {
 class MainPosition {
   //None - root
   Scope? currentScope;
-  Object_? uxoPointer;
+  FlaxumObject? uxoPointer;
   List<String> nameStack;
   List<String> idStack;
 

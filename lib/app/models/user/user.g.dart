@@ -6,22 +6,43 @@ part of 'user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+UserPublic _$UserPublicFromJson(Map<String, dynamic> json) => UserPublic(
+      json['id'] as String,
+      json['name1'] as String,
+      json['name2'] as String?,
+      json['name3'] as String?,
+      json['email'] as String,
+      json['roleType'] as String,
+      (json['storageSize'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$UserPublicToJson(UserPublic instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name1': instance.name1,
+      'name2': instance.name2,
+      'name3': instance.name3,
+      'email': instance.email,
+      'roleType': instance.roleType,
+      'storageSize': instance.storageSize,
+    };
+
 User _$UserFromJson(Map<String, dynamic> json) => User(
       json['id'] as String,
-      json['name_1'] as String,
-      json['name_2'] as String?,
-      json['name_3'] as String?,
+      json['name1'] as String,
+      json['name2'] as String?,
+      json['name3'] as String?,
       json['email'] as String,
-      json['role_type'] as String,
-      json['is_deleted'] as bool,
-      json['deleted_at'] == null
+      json['roleType'] as String,
+      json['isDeleted'] as bool,
+      json['deletedAt'] == null
           ? null
-          : DateTime.parse(json['deleted_at'] as String),
-      json['is_blocked'] as bool,
-      json['blocked_at'] == null
+          : DateTime.parse(json['deletedAt'] as String),
+      json['isBlocked'] as bool,
+      json['blockedAt'] == null
           ? null
-          : DateTime.parse(json['blocked_at'] as String),
-      (json['storage_size'] as num).toInt(),
+          : DateTime.parse(json['blockedAt'] as String),
+      (json['storageSize'] as num).toInt(),
       DateTime.parse(json['createdAt'] as String),
       json['updatedAt'] == null
           ? null
@@ -30,16 +51,16 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
-      'name_1': instance.name_1,
-      'name_2': instance.name_2,
-      'name_3': instance.name_3,
+      'name1': instance.name1,
+      'name2': instance.name2,
+      'name3': instance.name3,
       'email': instance.email,
-      'role_type': instance.role_type,
-      'is_deleted': instance.is_deleted,
-      'deleted_at': instance.deleted_at?.toIso8601String(),
-      'is_blocked': instance.is_blocked,
-      'blocked_at': instance.blocked_at?.toIso8601String(),
-      'storage_size': instance.storage_size,
+      'roleType': instance.roleType,
+      'isDeleted': instance.isDeleted,
+      'deletedAt': instance.deletedAt?.toIso8601String(),
+      'isBlocked': instance.isBlocked,
+      'blockedAt': instance.blockedAt?.toIso8601String(),
+      'storageSize': instance.storageSize,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };

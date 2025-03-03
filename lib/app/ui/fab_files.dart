@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:file_picker/file_picker.dart';
 
 import 'package:flaxum_fileshare/app/models/system_position.dart';
-import 'package:flaxum_fileshare/app/models/object_/object_.dart';
+import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
 
 import 'package:flaxum_fileshare/app/providers/object_provider.dart';
 import 'package:flaxum_fileshare/app/providers/position_provider.dart';
 
-import 'package:flaxum_fileshare/app/api/objects/create.dart';
+import 'package:flaxum_fileshare/app/network/objects/create.dart';
 
 // Класс отображения кнопок для создания папки и для загрузки файла
 class FabButtons extends StatelessWidget {
@@ -23,6 +23,7 @@ class FabButtons extends StatelessWidget {
       children: [
         // Кнопка создания папки
         FloatingActionButton(
+          heroTag: "create_folder_tag",
           onPressed: () async {
             if (Provider.of<PositionProvider>(context, listen: false)
                     .data
@@ -37,6 +38,7 @@ class FabButtons extends StatelessWidget {
         const SizedBox(height: 16),
         // Кнопка загрузки файла
         FloatingActionButton(
+          heroTag: "upload_file_tag",
           onPressed: () async {
             final mainPosition =
                 Provider.of<PositionProvider>(context, listen: false).data;
@@ -70,7 +72,7 @@ void _showCreateFolderDialog(BuildContext context) async {
             onPressed: () async {
               String folderName = folderNameController.text;
               if (folderName.isNotEmpty) {
-                final Object_ createdFolder =
+                final FlaxumObject createdFolder =
                     await createFolder(context, folderName);
                 Provider.of<ObjectProvider>(context, listen: false)
                     .addItem(createdFolder);
@@ -110,6 +112,6 @@ void _uploadSingleFile(BuildContext context) async {
     ),
   });
 
-  final Object_ createdFolder = await uploadSingleFile(formData, parentId);
+  final FlaxumObject createdFolder = await uploadSingleFile(formData, parentId);
   Provider.of<ObjectProvider>(context, listen: false).addItem(createdFolder);
 }

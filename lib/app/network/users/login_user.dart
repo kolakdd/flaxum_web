@@ -1,4 +1,4 @@
-import 'package:flaxum_fileshare/app/api/dio_client.dart';
+import 'package:flaxum_fileshare/app/network/dio_client.dart';
 
 // Авторизировать пользователя и вернуть токен авторизации
 Future<String?> authorizationUser(String email, String password) async {
