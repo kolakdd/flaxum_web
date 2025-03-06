@@ -1,3 +1,4 @@
+import 'package:flaxum_fileshare/app/models/system_position.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,8 +11,8 @@ Widget myFiles(BuildContext context) {
   return ListTile(
     title: const Text('Мои файлы'),
     onTap: () async {
-      Provider.of<PositionProvider>(context, listen: false).data.idStack = [];
-      Provider.of<PositionProvider>(context, listen: false).data.nameStack = [];
+      PositionProvider posProvider = Provider.of<PositionProvider>(context, listen: false);
+      posProvider.dropScope(); 
       await getOwnObjects(context, null);
     },
   );
@@ -22,8 +23,8 @@ Widget trashFiles(BuildContext context) {
   return ListTile(
     title: const Text('Корзина'),
     onTap: () async {
-      Provider.of<PositionProvider>(context, listen: false).data.idStack = [];
-      Provider.of<PositionProvider>(context, listen: false).data.nameStack = [];
+      PositionProvider posProvider = Provider.of<PositionProvider>(context, listen: false);
+      posProvider.dropScope(); 
       await getTrashObjects(context);
     },
   );
@@ -34,8 +35,8 @@ Widget sharedFiles(BuildContext context) {
   return ListTile(
     title: const Text('Доступные мне'),
     onTap: () async {
-      Provider.of<PositionProvider>(context, listen: false).data.idStack = [];
-      Provider.of<PositionProvider>(context, listen: false).data.nameStack = [];
+      PositionProvider posProvider = Provider.of<PositionProvider>(context, listen: false);
+      posProvider.dropScope(); 
       await getSharedObjects(context, null);
     },
   );

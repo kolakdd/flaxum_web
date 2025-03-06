@@ -22,8 +22,13 @@ class ObjectProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateData(List<FlaxumObject> newData) {
-    _data = newData;
+  void appendData(List<FlaxumObject> newData) {
+    _data = _data + newData;
+    notifyListeners();
+  }
+
+  void dropData() {
+    _data = [];
     notifyListeners();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
 
 // В каких какой позиции находится система в данный момент
-enum Scope { own, trash, shared }
+enum Scope { own, trash, shared, users }
 
 extension ScopeExtension on Scope {
   String toDisplayString() {
@@ -12,8 +12,25 @@ extension ScopeExtension on Scope {
         return "Корзина";
       case Scope.shared:
         return "Доступные мне";
+      case Scope.users:
+        return "Пользователи системы";
       default:
         return "Default";
+    }
+  }
+
+  String toEndpoint() {
+    switch (this) {
+      case Scope.own:
+        return "/object/own/list";
+      case Scope.trash:
+        return "/object/trash/list";
+      case Scope.shared:
+        return "/object/shared/list";
+      case Scope.users:
+        return "err";
+      default:
+        return "err";
     }
   }
 }
@@ -26,7 +43,6 @@ class CurrentDirContext {
 }
 
 class MainPosition {
-  //None - root
   Scope? currentScope;
   FlaxumObject? uxoPointer;
   List<String> nameStack;

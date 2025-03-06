@@ -18,30 +18,28 @@ class Sidebar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           _userSection(context),
-          if (user.roleType == "Admin" || user.roleType == "Superuser") _adminSection(context)
+          if (user.roleType == "Admin" || user.roleType == "Superuser")
+            _adminSection(context)
         ],
       ),
     );
   }
 
-  Widget _userSection(BuildContext context){
+  Widget _userSection(BuildContext context) {
     return Column(children: [
-          myFiles(context),
-          trashFiles(context),
-          sharedFiles(context),
+      myFiles(context),
+      trashFiles(context),
+      sharedFiles(context),
     ]);
   }
 
-
-  Widget _adminSection(BuildContext context){
+  Widget _adminSection(BuildContext context) {
     return Column(children: [
-          const SizedBox(height: 100),
-          const Text(textAlign: TextAlign.center, "Администрирование"),
-          const SizedBox(height: 12),
-          adminListObjects(context),
-          adminListUsers(context),
+      const SizedBox(height: 100),
+      const Text(textAlign: TextAlign.center, "Администрирование"),
+      const SizedBox(height: 12),
+      adminListObjects(context),
+      adminListUsers(context),
     ]);
   }
-
 }
-

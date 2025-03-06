@@ -49,7 +49,7 @@ class _MainApp extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    if (cookie == null) return const LoadAuthScreen();  
+    if (cookie == null) return const LoadAuthScreen();
     UserPublic? curUser = Provider.of<UserProvider>(context, listen: true).data;
     return Scaffold(
       appBar: AppBar(
@@ -85,7 +85,7 @@ class _MainApp extends State<MainApp> {
               children: [
                 const Sidebar(),
                 const Expanded(
-                  child: ObjectListWidget(),
+                  child: GeneralListWidget(),
                 ),
                 FileDetails(),
               ],

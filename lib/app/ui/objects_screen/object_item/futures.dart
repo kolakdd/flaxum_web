@@ -114,24 +114,31 @@ class ObjectItemFeatures {
 
   // Перемещение внутрь подкаталога
   static void moveInsideSubdirectory(context, FlaxumObject item) async {
-    final Scope currentScope =
-        (Provider.of<PositionProvider>(context, listen: false)
-            .data
-            .currentScope!);
+    PositionProvider posProvider = Provider.of<PositionProvider>(context, listen: false);
+    final Scope? currentScope = posProvider.data.currentScope;
     switch (currentScope) {
       // перемещение внутри корзины не возможно
       case Scope.trash:
         break;
+      // перемещение внутри скоупа юзеров невозможно
+      case Scope.users:
+        break;
       // перемещение внутри по собственным файлам
       case Scope.own:
+        posProvider.clerPagination();
         getOwnObjects(context, item.id);
-        Provider.of<PositionProvider>(context, listen: false).pushBread(item);
+        posProvider.pushBread(item);
         break;
       // перемещение внутри по каталогам из "Доступное мне"
       case Scope.shared:
+        posProvider.clerPagination();
         getSharedObjects(context, item.id);
-        Provider.of<PositionProvider>(context, listen: false).pushBread(item);
+        posProvider.pushBread(item);
         break;
+      // перемещение внутри по каталогам из "Доступное мне"
+      case null:
+        break;
+
     }
   }
 
