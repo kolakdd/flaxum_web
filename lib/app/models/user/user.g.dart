@@ -77,3 +77,21 @@ Map<String, dynamic> _$RegisterUserRequestToJson(
       'data': instance.data,
       'status': instance.status,
     };
+
+GetUsersResponse _$GetUsersResponseFromJson(Map<String, dynamic> json) =>
+    GetUsersResponse(
+      (json['items'] as List<dynamic>)
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      (json['limit'] as num).toInt(),
+      (json['offset'] as num).toInt(),
+      (json['total'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$GetUsersResponseToJson(GetUsersResponse instance) =>
+    <String, dynamic>{
+      'items': instance.items,
+      'limit': instance.limit,
+      'offset': instance.offset,
+      'total': instance.total,
+    };

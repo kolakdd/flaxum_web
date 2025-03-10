@@ -1,16 +1,16 @@
 import 'package:flaxum_fileshare/app/models/user/user.dart';
 import 'package:flaxum_fileshare/app/providers/user_provider.dart';
-import 'package:flaxum_fileshare/app/ui/left_side_bar/admin.dart';
-import 'package:flaxum_fileshare/app/ui/left_side_bar/common.dart';
+import 'package:flaxum_fileshare/app/ui/screens/main_screen/left_side_bar/admin.dart';
+import 'package:flaxum_fileshare/app/ui/screens/main_screen/left_side_bar/common.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Сайд-бар с разделами (Мои файлы, Коризна, Доступные мне, ...)
-class Sidebar extends StatelessWidget {
-  const Sidebar({super.key});
+class LeftSidebar extends StatelessWidget {
+  const LeftSidebar({super.key});
   @override
   Widget build(BuildContext context) {
-    UserPublic user = Provider.of<UserProvider>(context, listen: true).data!;
+    UserPublic? user = Provider.of<UserProvider>(context, listen: true).data;
     return Container(
       width: 150,
       color: Colors.grey[200],
@@ -18,7 +18,7 @@ class Sidebar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           _userSection(context),
-          if (user.roleType == "Admin" || user.roleType == "Superuser")
+          if ( user != null && (user.roleType == "Admin" || user.roleType == "Superuser"))
             _adminSection(context)
         ],
       ),
@@ -35,7 +35,8 @@ class Sidebar extends StatelessWidget {
 
   Widget _adminSection(BuildContext context) {
     return Column(children: [
-      const SizedBox(height: 100),
+      Container(height: 24, color: const Color.fromARGB(255, 207, 207, 207)),
+      const SizedBox(height: 12),
       const Text(textAlign: TextAlign.center, "Администрирование"),
       const SizedBox(height: 12),
       adminListObjects(context),

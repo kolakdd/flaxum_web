@@ -1,5 +1,6 @@
 import 'package:flaxum_fileshare/app/network/objects/fetch.dart';
-import 'package:flaxum_fileshare/app/ui/objects_screen/object_item/entity.dart';
+import 'package:flaxum_fileshare/app/network/users/fetch.dart';
+import 'package:flaxum_fileshare/app/ui/screens/main_screen/general_list_widget/object_list/object_item/entity.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,14 +11,14 @@ import 'package:flaxum_fileshare/app/providers/object_provider.dart';
 import 'package:flaxum_fileshare/app/providers/position_provider.dart';
 
 // Список объектов
-class GeneralListWidget extends StatefulWidget {
-  const GeneralListWidget({super.key});
+class ObjectList extends StatefulWidget {
+  const ObjectList({super.key});
 
   @override
-  State<GeneralListWidget> createState() => _GeneralListWidgetState();
+  State<ObjectList> createState() => _ObjectListState();
 }
 
-class _GeneralListWidgetState extends State<GeneralListWidget> {
+class _ObjectListState extends State<ObjectList> {
   late ScrollController _controller;
 
   @override
@@ -47,10 +48,12 @@ class _GeneralListWidgetState extends State<GeneralListWidget> {
           await getSharedObjects(context, null);
         case Scope.trash:
           await getTrashObjects(context);
+        case Scope.systemFiles:
+          await getAdminObjecs(context);
         case Scope.users:
-          // todo;
-          break;
+          await getUsersList(context);
         case _:
+          // todo;
           break;
       }
     }
@@ -63,7 +66,6 @@ class _GeneralListWidgetState extends State<GeneralListWidget> {
 
     return Column(
       children: [
-        // сделать вариативность и для юзеров
         itemHeaderObjects(),
         if (objectList.isEmpty)
           const Center(child: Text("Здесь нет файлов."))

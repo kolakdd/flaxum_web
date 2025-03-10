@@ -11,14 +11,14 @@ const String assetsFileSvg = 'assets/file.svg';
 Widget objectIcon(type, double size, FlaxumObject item) {
   return Builder(builder: (context) {
     if (type == "Dir") {
-      return dirIcon(context, item, size);
+      return dirIcon(context, size);
     }
     return fileIcon(size);
   });
 }
 
 // иконка директории
-Widget dirIcon(BuildContext context, FlaxumObject item, double size) {
+Widget dirIcon(BuildContext context, double size) {
   return SvgPicture.asset(assetsFolderSvg,
       width: size, height: size, semanticsLabel: 'Folder');
 }

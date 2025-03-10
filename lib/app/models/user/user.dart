@@ -67,6 +67,9 @@ class User {
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
+// --------=== User Admin ===---------
+
+
 class RegisterUser {
   final String email;
   final DateTime createdAt;
@@ -88,4 +91,21 @@ class RegisterUserRequest {
       _$RegisterUserRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$RegisterUserRequestToJson(this);
+}
+
+
+
+@JsonSerializable()
+class GetUsersResponse {
+  final List<User> items;
+  final int limit;
+  final int offset;
+  final int total;
+
+  GetUsersResponse(this.items, this.limit, this.offset, this.total);
+
+  factory GetUsersResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetUsersResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetUsersResponseToJson(this);
 }

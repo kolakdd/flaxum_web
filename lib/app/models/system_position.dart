@@ -1,7 +1,7 @@
 import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
 
 // В каких какой позиции находится система в данный момент
-enum Scope { own, trash, shared, users }
+enum Scope { own, trash, shared, systemFiles ,users }
 
 extension ScopeExtension on Scope {
   String toDisplayString() {
@@ -12,8 +12,10 @@ extension ScopeExtension on Scope {
         return "Корзина";
       case Scope.shared:
         return "Доступные мне";
+      case Scope.systemFiles:
+        return "Файлы системы";
       case Scope.users:
-        return "Пользователи системы";
+        return "Пользователи";
       default:
         return "Default";
     }
@@ -27,8 +29,10 @@ extension ScopeExtension on Scope {
         return "/object/trash/list";
       case Scope.shared:
         return "/object/shared/list";
+      case Scope.systemFiles:
+        return "/admin/object/list";
       case Scope.users:
-        return "err";
+        return "/admin/user/list";
       default:
         return "err";
     }

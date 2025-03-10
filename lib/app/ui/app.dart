@@ -1,25 +1,20 @@
 import 'package:flaxum_fileshare/app/network/users/user_me.dart';
 import 'package:flaxum_fileshare/app/models/user/user.dart';
+import 'package:flaxum_fileshare/app/providers/position_provider.dart';
 
 import 'package:flaxum_fileshare/app/providers/user_provider.dart';
-import 'package:flaxum_fileshare/app/ui/app_bar/about_user.dart';
-import 'package:flaxum_fileshare/app/ui/app_bar/actions.dart';
-import 'package:flaxum_fileshare/app/ui/app_bar/bread_crumbs.dart';
+import 'package:flaxum_fileshare/app/ui/screens/main_screen/app_bar/main.dart';
+import 'package:flaxum_fileshare/app/ui/screens/main_screen/general_list_widget/general_list.dart';
 import 'package:flutter/material.dart';
-
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'package:flaxum_fileshare/app/network/dio_client.dart';
 
 import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
 import 'package:flaxum_fileshare/app/network/objects/fetch.dart';
 
-import 'package:flaxum_fileshare/app/ui/login_screen/auth.dart';
+import 'package:flaxum_fileshare/app/ui/screens/login_screen/auth.dart';
 
-import 'package:flaxum_fileshare/app/ui/left_side_bar/side_bar.dart';
-import 'package:flaxum_fileshare/app/ui/fab_files.dart';
-import 'package:flaxum_fileshare/app/ui/objects_screen/object_list.dart';
-import 'package:flaxum_fileshare/app/ui/objects_screen/file_details.dart';
+import 'package:flaxum_fileshare/app/ui/screens/main_screen/fab_files.dart';
 import 'package:provider/provider.dart';
 
 // Главное приложение
@@ -32,6 +27,8 @@ class MainApp extends StatefulWidget {
 
 class _MainApp extends State<MainApp> {
   late Future<List<FlaxumObject>> futureObjectList;
+
+
   late Future<UserPublic> futureUserData;
   final cookie = getTokenFromCookie();
 
@@ -40,59 +37,28 @@ class _MainApp extends State<MainApp> {
     super.initState();
     if (cookie != null) {
       futureObjectList = getOwnObjects(context, null);
+
+
       futureUserData = getUserMe().then((userData) {
         Provider.of<UserProvider>(context, listen: false).updateData(userData);
         return userData;
-      });
+      }
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     if (cookie == null) return const LoadAuthScreen();
-    UserPublic? curUser = Provider.of<UserProvider>(context, listen: true).data;
+    
+    PositionProvider posProvider = Provider.of<PositionProvider>(context, listen: true);
+    
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            const Text('<Flaxum-Web-Logo>'),
-            const SizedBox(width: 12),
-            breadCrumbs(context)
-          ],
-        ),
-        automaticallyImplyLeading: false,
-        toolbarHeight: MediaQuery.of(context).size.height / 15,
-        actions: [
-          if (curUser != null) aboutUser(curUser),
-          appBarActions(context),
-        ],
-      ),
+      // ---=== App Bar ===---
+      appBar: mainAppBar(context),
       // ---=== List Objects ===---
-      body: FutureBuilder<List<FlaxumObject>>(
-        future: futureObjectList,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: LoadingAnimationWidget.discreteCircle(
-                color: Colors.green,
-                size: 200,
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Text('ERROR: ${snapshot.error}');
-          } else {
-            return Row(
-              children: [
-                const Sidebar(),
-                const Expanded(
-                  child: GeneralListWidget(),
-                ),
-                FileDetails(),
-              ],
-            );
-          }
-        },
-      ),
+      body:  generalListBuider(posProvider, futureObjectList),
+      // ---=== Fab Buttons ===---
       floatingActionButton: const FabButtons(),
     );
   }

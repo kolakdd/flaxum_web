@@ -1,10 +1,10 @@
 import 'package:flaxum_fileshare/app/providers/uxo_provider.dart';
-import 'package:flaxum_fileshare/app/ui/objects_screen/uxo_list.dart';
+import 'package:flaxum_fileshare/app/ui/screens/main_screen/right_side_details/uxo_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class FileDetails extends StatelessWidget {
-  FileDetails({super.key});
+class RightSideDetails extends StatelessWidget {
+  const RightSideDetails({super.key});
 
   @override
   Widget build(BuildContext context) {

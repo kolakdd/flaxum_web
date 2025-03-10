@@ -11,6 +11,11 @@ class UxoProvider extends ChangeNotifier {
     return _data.length;
   }
 
+  void dropData(){
+    _data = [];
+    notifyListeners();
+  }
+
   void updateData(List<UxoItem> newData) {
     _data = newData;
     notifyListeners();

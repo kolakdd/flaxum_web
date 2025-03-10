@@ -116,8 +116,11 @@ class ObjectItemFeatures {
   static void moveInsideSubdirectory(context, FlaxumObject item) async {
     PositionProvider posProvider = Provider.of<PositionProvider>(context, listen: false);
     final Scope? currentScope = posProvider.data.currentScope;
-    switch (currentScope) {
-      // перемещение внутри корзины не возможно
+    switch (currentScope) { 
+      // перемещение внутри файлов системы невозможно
+      case Scope.systemFiles:
+        break;
+      // перемещение внутри корзины невозможно
       case Scope.trash:
         break;
       // перемещение внутри скоупа юзеров невозможно

@@ -5,7 +5,7 @@ import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
 
 import 'package:flaxum_fileshare/app/ui/icon_widget/element_icons.dart';
 import 'package:flaxum_fileshare/app/utils/utils_class.dart';
-import 'package:flaxum_fileshare/app/ui/objects_screen/object_item/futures.dart';
+import 'package:flaxum_fileshare/app/ui/screens/main_screen/general_list_widget/object_list/object_item/futures.dart';
 
 // Виджет для одного элемента списка
 class ObjectItemWidget extends StatefulWidget {
@@ -39,7 +39,10 @@ class _ObjectItemWidgetState extends State<ObjectItemWidget> {
   // Главный виджет объекта
   Widget objectItem(BuildContext context, FlaxumObject item,
       MainPosition mainPosition, bool isHovered) {
-    return Padding(
+    return 
+    SizedBox(
+      height: 48,
+      child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: GestureDetector(
         // Логика нажатия мышью
@@ -100,11 +103,14 @@ class _ObjectItemWidgetState extends State<ObjectItemWidget> {
                 onTapDown: (details) => mouseClickLogic.onSecondaryTapDown(
                     context, details, item, mainPosition),
                 child: const Icon(Icons.more_vert),
-              )
+              ),
+              const SizedBox(width: 12),
+
             ],
           ),
         ),
       ),
+    )
     );
   }
 }
