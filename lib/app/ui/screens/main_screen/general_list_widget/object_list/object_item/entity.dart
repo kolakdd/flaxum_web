@@ -79,14 +79,16 @@ class _ObjectItemWidgetState extends State<ObjectItemWidget> {
               objectIcon(item.type, 32, item),
               const SizedBox(width: 12),
               // имя файла
-              Expanded(
+              SizedBox(
+                width: 128,
                 child: Text(item.name,
                     style: utils.styleTextUtil.commonTextStyle(),
                     overflow: TextOverflow.ellipsis),
               ),
               const Spacer(flex: 1),
               // размер файла
-              Expanded(
+              SizedBox(
+                width: 128,
                 child: Text(utils.formatDataUtil.fBytes(item.size),
                     // child: Text( ormatBytes(item.size),
                     style: utils.styleTextUtil.commonTextStyle(),
@@ -94,7 +96,8 @@ class _ObjectItemWidgetState extends State<ObjectItemWidget> {
               ),
               const Spacer(flex: 1),
               // дата создания файла
-              Expanded(
+              SizedBox(
+                width: 128,
                 child: Text(utils.formatDataUtil.fDateTime(item.createdAt),
                     style: utils.styleTextUtil.commonTextStyle(),
                     overflow: TextOverflow.ellipsis),

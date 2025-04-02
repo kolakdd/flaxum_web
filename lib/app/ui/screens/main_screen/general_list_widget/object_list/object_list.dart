@@ -68,7 +68,10 @@ class _ObjectListState extends State<ObjectList> {
       children: [
         itemHeaderObjects(),
         if (objectList.isEmpty)
-          const Center(child: Text("Здесь нет файлов."))
+          const Center(
+            heightFactor: 20,
+            child: Text("Здесь нет файлов.")
+            )
         else
           Expanded(
             child: ListView.builder(
@@ -88,37 +91,25 @@ class _ObjectListState extends State<ObjectList> {
   }
 
   Widget itemHeaderObjects() {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(children: [
-          SizedBox(width: 44),
-          Text("Имя файла"),
-        ]),
-        Row(
-          children: [
-            Text("Размер файла"),
-            Text("Дата создания файла"),
-          ],
-        )
-      ],
-    );
-  }
 
-  Widget itemHeaderUsers() {
     return const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Row(children: [
-          SizedBox(width: 44),
-          Text("Имя"),
-        ]),
-        Row(
-          children: [
-            Text("Фамилия"),
-            Text("Размер хранилища"),
-          ],
-        )
+        SizedBox(width: 44),
+        SizedBox(width: 128,
+        child: Text("Имя файла")
+        ),
+        Spacer(flex: 1),
+        SizedBox(width: 44),
+        SizedBox(width: 128,
+        child: Text("Размер файла")
+        ),
+        SizedBox(width: 44),
+        Spacer(flex: 1),
+                SizedBox(width: 128,
+        child: Text("Дата создания")
+        ),
+        SizedBox(width: 36),
       ],
     );
   }

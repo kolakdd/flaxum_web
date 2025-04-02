@@ -54,11 +54,8 @@ class _MainApp extends State<MainApp> {
     PositionProvider posProvider = Provider.of<PositionProvider>(context, listen: true);
     
     return Scaffold(
-      // ---=== App Bar ===---
       appBar: mainAppBar(context),
-      // ---=== List Objects ===---
       body:  generalListBuider(posProvider, futureObjectList),
-      // ---=== Fab Buttons ===---
       floatingActionButton: const FabButtons(),
     );
   }

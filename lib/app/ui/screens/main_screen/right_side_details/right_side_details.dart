@@ -8,9 +8,9 @@ class RightSideDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var uxoItems = Provider.of<UxoProvider>(context, listen: true).data;
+    final uxoItems = Provider.of<UxoProvider>(context, listen: true).data;
     return Container(
-      width: 300,
+      width: 250,
       color: Colors.grey[100],
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -21,8 +21,7 @@ class RightSideDetails extends StatelessWidget {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
-          SizedBox(
-              height: 500,
+          Expanded(
               child: uxoItems.isEmpty
                   ? const Text('Нажмите на файл.')
                   : UxoListStateful(uxoItems: uxoItems))
