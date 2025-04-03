@@ -19,8 +19,7 @@ Future<List<User>> _fetchUserList(
       Provider.of<ObjectProvider>(context, listen: false);
   NavigatorState navigator = Navigator.of(context);
 
-
-  if (posProvider.data.currentScope != scope){
+  if (posProvider.data.currentScope != scope) {
     objProvider.dropData();
   }
 
@@ -36,9 +35,9 @@ Future<List<User>> _fetchUserList(
 
   if (response.statusCode == 200) {
     final result = GetUsersResponse.fromJson(response.data);
-    
+
     objProvider.appendDataUsers(result.items);
-    
+
     posProvider.updateScope(
       scope,
       posProvider.offset + posProvider.limit,
@@ -55,8 +54,6 @@ Future<List<User>> _fetchUserList(
   }
 }
 
-Future<List<User>> getUsersList(
-    BuildContext context) async {
+Future<List<User>> getUsersList(BuildContext context) async {
   return await _fetchUserList(context, Scope.users, null);
 }
-

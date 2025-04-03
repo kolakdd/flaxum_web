@@ -37,10 +37,8 @@ class _ObjectListState extends State<ObjectList> {
     PositionProvider posProvider =
         Provider.of<PositionProvider>(context, listen: false);
 
-    if (
-      posProvider.offset < posProvider.total &&
-      _controller.position.maxScrollExtent == _controller.position.pixels
-      ) {
+    if (posProvider.offset < posProvider.total &&
+        _controller.position.maxScrollExtent == _controller.position.pixels) {
       switch (posProvider.data.currentScope) {
         case Scope.own:
           await getOwnObjects(context, null);
@@ -68,10 +66,7 @@ class _ObjectListState extends State<ObjectList> {
       children: [
         itemHeaderObjects(),
         if (objectList.isEmpty)
-          const Center(
-            heightFactor: 20,
-            child: Text("Здесь нет файлов.")
-            )
+          const Center(heightFactor: 20, child: Text("Здесь нет файлов."))
         else
           Expanded(
             child: ListView.builder(
@@ -91,24 +86,17 @@ class _ObjectListState extends State<ObjectList> {
   }
 
   Widget itemHeaderObjects() {
-
     return const Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(width: 44),
-        SizedBox(width: 128,
-        child: Text("Имя файла")
-        ),
+        SizedBox(width: 128, child: Text("Имя файла")),
         Spacer(flex: 1),
         SizedBox(width: 44),
-        SizedBox(width: 128,
-        child: Text("Размер файла")
-        ),
+        SizedBox(width: 128, child: Text("Размер файла")),
         SizedBox(width: 44),
         Spacer(flex: 1),
-                SizedBox(width: 128,
-        child: Text("Дата создания")
-        ),
+        SizedBox(width: 128, child: Text("Дата создания")),
         SizedBox(width: 36),
       ],
     );

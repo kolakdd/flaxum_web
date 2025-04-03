@@ -17,13 +17,14 @@ Widget appBarActions(context) {
         icon: const Icon(Icons.login),
         tooltip: 'Unlogin',
         onPressed: () {
-          PositionProvider currentPosition = Provider.of<PositionProvider>(context, listen: false);
-          ObjectProvider objProvider = Provider.of<ObjectProvider>(context, listen: false);
-
+          PositionProvider currentPosition =
+              Provider.of<PositionProvider>(context, listen: false);
+          ObjectProvider objProvider =
+              Provider.of<ObjectProvider>(context, listen: false);
 
           currentPosition.dropScope();
           objProvider.dropData();
-          
+
           document.cookie = "";
           Navigator.of(context).pushReplacementNamed('/auth');
         },

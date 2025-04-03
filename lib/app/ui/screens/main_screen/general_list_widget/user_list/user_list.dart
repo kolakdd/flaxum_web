@@ -37,10 +37,8 @@ class _UserListState extends State<UserList> {
     PositionProvider posProvider =
         Provider.of<PositionProvider>(context, listen: false);
 
-    if (
-      posProvider.offset < posProvider.total &&
-      _controller.position.maxScrollExtent == _controller.position.pixels
-      ) {
+    if (posProvider.offset < posProvider.total &&
+        _controller.position.maxScrollExtent == _controller.position.pixels) {
       switch (posProvider.data.currentScope) {
         case Scope.own:
           await getOwnObjects(context, null);
@@ -92,37 +90,21 @@ class _UserListState extends State<UserList> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(width: 12),
-        SizedBox(width: 168,
-        child: Text("Email")
-        ),
+        SizedBox(width: 168, child: Text("Email")),
         SizedBox(width: 12),
-       SizedBox(width: 84,
-        child: Text("Имя")
-        ),
+        SizedBox(width: 84, child: Text("Имя")),
         SizedBox(width: 12),
-       SizedBox(width: 84,
-        child: Text("Фамилия")
-        ),
+        SizedBox(width: 84, child: Text("Фамилия")),
         SizedBox(width: 12),
-       SizedBox(width: 84,
-        child: Text("Отчество")
-        ),
+        SizedBox(width: 84, child: Text("Отчество")),
         SizedBox(width: 12),
-       SizedBox(width: 96,
-        child: Text("Заблокирован")
-        ),
+        SizedBox(width: 96, child: Text("Заблокирован")),
         SizedBox(width: 12),
-       SizedBox(width: 84,
-        child: Text("Удален")
-        ),
+        SizedBox(width: 84, child: Text("Удален")),
         SizedBox(width: 12),
-       SizedBox(width: 84,
-        child: Text("Размер хранилища")
-        ),
-    SizedBox(width: 12),
-       SizedBox(width: 84,
-        child: Text("Дата создания")
-        ),
+        SizedBox(width: 84, child: Text("Размер хранилища")),
+        SizedBox(width: 12),
+        SizedBox(width: 84, child: Text("Дата создания")),
       ],
     );
   }

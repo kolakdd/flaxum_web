@@ -18,7 +18,8 @@ class LeftSidebar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           _userSection(context),
-          if ( user != null && (user.roleType == "Admin" || user.roleType == "Superuser"))
+          if (user != null &&
+              (user.roleType == "Admin" || user.roleType == "Superuser"))
             _adminSection(context)
         ],
       ),

@@ -1,4 +1,3 @@
-
 // Api текущего скоупа объектов
 import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
 import 'package:flaxum_fileshare/app/models/user/user.dart';
@@ -7,7 +6,6 @@ import 'package:flutter/material.dart';
 class ObjectProvider extends ChangeNotifier {
   List<FlaxumObject> _data = [];
   List<User> _dataUsers = [];
-
 
   List<FlaxumObject> get data => _data;
   List<User> get dataUsers => _dataUsers;
@@ -31,12 +29,10 @@ class ObjectProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void appendDataUsers(List<User> newData) {
     _dataUsers = _dataUsers + newData;
     notifyListeners();
   }
-
 
   void dropData() {
     _data = [];

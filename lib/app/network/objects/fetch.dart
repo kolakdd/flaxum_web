@@ -19,7 +19,6 @@ Future<List<FlaxumObject>> _fetchObjects(
       Provider.of<ObjectProvider>(context, listen: false);
   NavigatorState navigator = Navigator.of(context);
 
-
   if (posProvider.data.currentScope != scope ||
       (id == null && posProvider.data.uxoPointer != null) ||
       (id != null && posProvider.data.uxoPointer == null)) {
@@ -70,8 +69,6 @@ Future<List<FlaxumObject>> getSharedObjects(
   return await _fetchObjects(context, Scope.shared, id);
 }
 
-Future<List<FlaxumObject>> getAdminObjecs(
-    BuildContext context) async {
+Future<List<FlaxumObject>> getAdminObjecs(BuildContext context) async {
   return await _fetchObjects(context, Scope.systemFiles, null);
 }
-

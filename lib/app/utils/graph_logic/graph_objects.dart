@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flaxum_fileshare/app/ui/icon_widget/element_icons.dart';
+import 'package:flaxum_fileshare/app/ui/widgets/icon_widget/element_icons.dart';
 import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
 import 'package:flaxum_fileshare/app/utils/graph_logic/get_position.dart';
 

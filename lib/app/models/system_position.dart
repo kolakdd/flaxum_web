@@ -1,7 +1,7 @@
 import 'package:flaxum_fileshare/app/models/flaxum_object/flaxum_object.dart';
 
 // В каких какой позиции находится система в данный момент
-enum Scope { own, trash, shared, systemFiles ,users }
+enum Scope { own, trash, shared, systemFiles, users }
 
 extension ScopeExtension on Scope {
   String toDisplayString() {

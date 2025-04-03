@@ -41,17 +41,15 @@ class PositionProvider extends ChangeNotifier {
 
   void dropScope() {
     _data = MainPosition(null, null, null, null);
-    clerPagination();
+    clearPagination();
     notifyListeners();
   }
 
-
-  void clerPagination() {
+  void clearPagination() {
     _offset = 0;
     _total = 0;
     notifyListeners();
   }
-
 
   // обновить объект к которому относится указатель UXO
   void updateUxoPointer(FlaxumObject newData) {

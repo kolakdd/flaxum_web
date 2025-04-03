@@ -8,13 +8,17 @@ import 'package:flaxum_fileshare/app/models/system_position.dart';
 Widget breadCrumbs(BuildContext context) {
   PositionProvider currentPositionListened =
       Provider.of<PositionProvider>(context, listen: true);
-  PositionProvider currentPosition = Provider.of<PositionProvider>(context, listen: false);
-  ObjectProvider objProvider = Provider.of<ObjectProvider>(context, listen: false);
+  PositionProvider currentPosition =
+      Provider.of<PositionProvider>(context, listen: false);
+  ObjectProvider objProvider =
+      Provider.of<ObjectProvider>(context, listen: false);
 
   return Row(
     children: [
       Text(
-        currentPositionListened.data.currentScope == null ? "No scope" : currentPositionListened.data.currentScope!.toDisplayString() ,
+        currentPositionListened.data.currentScope == null
+            ? ""
+            : currentPositionListened.data.currentScope!.toDisplayString(),
       ),
       const SizedBox(width: 20),
       if (currentPositionListened.data.idStack.isNotEmpty)
@@ -32,16 +36,17 @@ Widget breadCrumbs(BuildContext context) {
                   color: Colors.black),
             ),
             onPressed: () async {
-              
               currentPosition.removeLastBread();
-              currentPosition.clerPagination();
+              currentPosition.clearPagination();
               objProvider.dropData();
 
               switch (currentPosition.data.currentScope) {
                 case Scope.own:
-                    await getOwnObjects(context, currentPosition.data.idStack.lastOrNull);
+                  await getOwnObjects(
+                      context, currentPosition.data.idStack.lastOrNull);
                 case Scope.shared:
-                    await getSharedObjects(context, currentPosition.data.idStack.lastOrNull);
+                  await getSharedObjects(
+                      context, currentPosition.data.idStack.lastOrNull);
                 case _:
                   break;
               }
@@ -53,5 +58,3 @@ Widget breadCrumbs(BuildContext context) {
     ],
   );
 }
-
-

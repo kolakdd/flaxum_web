@@ -11,10 +11,12 @@ Widget adminListObjects(BuildContext context) {
   return ListTile(
     title: const Text('Управление файлами'),
     onTap: () async {
-      PositionProvider posProvider = Provider.of<PositionProvider>(context, listen: false);
-      UxoProvider uxoProvider = Provider.of<UxoProvider>(context, listen: false);
+      PositionProvider posProvider =
+          Provider.of<PositionProvider>(context, listen: false);
+      UxoProvider uxoProvider =
+          Provider.of<UxoProvider>(context, listen: false);
       uxoProvider.dropData();
-      posProvider.dropScope(); 
+      posProvider.dropScope();
       await getAdminObjecs(context);
     },
   );
@@ -25,12 +27,13 @@ Widget adminListUsers(BuildContext context) {
   return ListTile(
     title: const Text('Управление пользователями'),
     onTap: () async {
-      
-      PositionProvider posProvider = Provider.of<PositionProvider>(context, listen: false);
-      UxoProvider uxoProvider = Provider.of<UxoProvider>(context, listen: false);
+      PositionProvider posProvider =
+          Provider.of<PositionProvider>(context, listen: false);
+      UxoProvider uxoProvider =
+          Provider.of<UxoProvider>(context, listen: false);
       uxoProvider.dropData();
-      posProvider.dropScope(); 
-      
+      posProvider.dropScope();
+
       await getUsersList(context);
     },
   );

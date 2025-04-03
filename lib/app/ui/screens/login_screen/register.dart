@@ -3,7 +3,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 
 import 'package:flaxum_fileshare/app/network/users/reguster_user.dart';
-import 'package:flaxum_fileshare/app/ui/icon_widget/flaxum_logo.dart';
+import 'package:flaxum_fileshare/app/ui/widgets/icon_widget/flaxum_logo.dart';
 
 // Страница регистрации
 class RegisterRoute extends StatefulWidget {
@@ -28,7 +28,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            mainLogoFlaxum(),
+            mainLogoFlaxum(100, 70),
             SizedBox(
               width: 500,
               child: Padding(

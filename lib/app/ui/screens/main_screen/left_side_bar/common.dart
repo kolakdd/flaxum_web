@@ -11,10 +11,12 @@ Widget myFiles(BuildContext context) {
   return ListTile(
     title: const Text('Мои файлы'),
     onTap: () async {
-      PositionProvider posProvider = Provider.of<PositionProvider>(context, listen: false);
-      UxoProvider uxoProvider = Provider.of<UxoProvider>(context, listen: false);
+      PositionProvider posProvider =
+          Provider.of<PositionProvider>(context, listen: false);
+      UxoProvider uxoProvider =
+          Provider.of<UxoProvider>(context, listen: false);
       uxoProvider.dropData();
-      posProvider.dropScope(); 
+      posProvider.dropScope();
       await getOwnObjects(context, null);
     },
   );
@@ -25,10 +27,12 @@ Widget trashFiles(BuildContext context) {
   return ListTile(
     title: const Text('Корзина'),
     onTap: () async {
-      PositionProvider posProvider = Provider.of<PositionProvider>(context, listen: false);
-            UxoProvider uxoProvider = Provider.of<UxoProvider>(context, listen: false);
+      PositionProvider posProvider =
+          Provider.of<PositionProvider>(context, listen: false);
+      UxoProvider uxoProvider =
+          Provider.of<UxoProvider>(context, listen: false);
       uxoProvider.dropData();
-      posProvider.dropScope(); 
+      posProvider.dropScope();
       await getTrashObjects(context);
     },
   );
@@ -39,10 +43,12 @@ Widget sharedFiles(BuildContext context) {
   return ListTile(
     title: const Text('Доступные мне'),
     onTap: () async {
-      PositionProvider posProvider = Provider.of<PositionProvider>(context, listen: false);
-      UxoProvider uxoProvider = Provider.of<UxoProvider>(context, listen: false);
+      PositionProvider posProvider =
+          Provider.of<PositionProvider>(context, listen: false);
+      UxoProvider uxoProvider =
+          Provider.of<UxoProvider>(context, listen: false);
       uxoProvider.dropData();
-      posProvider.dropScope(); 
+      posProvider.dropScope();
       await getSharedObjects(context, null);
     },
   );

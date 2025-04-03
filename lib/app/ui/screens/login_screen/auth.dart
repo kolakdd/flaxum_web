@@ -1,9 +1,8 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 
-import 'package:flaxum_fileshare/app/ui/icon_widget/flaxum_logo.dart';
+import 'package:flaxum_fileshare/app/ui/widgets/icon_widget/flaxum_logo.dart';
 import 'package:flaxum_fileshare/app/network/users/login_user.dart';
 
 // Страница авторизации
@@ -27,7 +26,7 @@ class _LoadAuthScreenState extends State<LoadAuthScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Лого Flaxum
-            mainLogoFlaxum(),
+            mainLogoFlaxum(100, 70),
             // Плашка с полями
             SizedBox(
               width: 500,

@@ -69,7 +69,6 @@ class User {
 
 // --------=== User Admin ===---------
 
-
 class RegisterUser {
   final String email;
   final DateTime createdAt;
@@ -92,8 +91,6 @@ class RegisterUserRequest {
 
   Map<String, dynamic> toJson() => _$RegisterUserRequestToJson(this);
 }
-
-
 
 @JsonSerializable()
 class GetUsersResponse {

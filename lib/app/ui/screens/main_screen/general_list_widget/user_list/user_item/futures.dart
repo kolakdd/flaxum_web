@@ -9,8 +9,7 @@ class ItemMouseClickLogic {
   }
 
   /// Двойное нажатие на элемент списка
-  void onDoubleTap(context, User item) async {
-  }
+  void onDoubleTap(context, User item) async {}
 
   /// Логика нажатия на элемент списка правой кнопкой мыши
   /// Появление меню с возможностью:
@@ -26,13 +25,11 @@ class ItemMouseClickLogic {
           value: 1,
           child: const Text('Разблокировать'),
           onTap: () async => UserItemFeatures.unblock(item)));
-    }
-    else {
-    menuItems.add(PopupMenuItem(
+    } else {
+      menuItems.add(PopupMenuItem(
           value: 1,
           child: const Text('Заблокировать'),
           onTap: () async => UserItemFeatures.markAsBlocked(item)));
-      
     }
 // ---------------------------------
     if (item.isDeleted) {
@@ -40,19 +37,15 @@ class ItemMouseClickLogic {
           value: 2,
           child: const Text('Восстановить'),
           onTap: () async => UserItemFeatures.undelete(item)));
-    }
-    else {
-    menuItems.add(PopupMenuItem(
+    } else {
+      menuItems.add(PopupMenuItem(
           value: 2,
           child: const Text('Удалить'),
           onTap: () async => UserItemFeatures.markAsDelete(item)));
-      
     }
 // ------------- если позиция в собственном корзине --------------------
     menuItems.add(PopupMenuItem(
-        value: 3,
-        child: const Text('Изменить'),
-        onTap: () async => {}));
+        value: 3, child: const Text('Изменить'), onTap: () async => {}));
 
     // для отображения меню возле курсора, используется в паре с GestureDetector, который дает details
     showMenu<int>(
@@ -69,8 +62,7 @@ class ItemMouseClickLogic {
 /// Активности над объектами списка
 class UserItemFeatures {
   // Обновление detailsBar
-  static void getObjectUxoAndUpdateProvider(
-      context, User user) async {
+  static void getObjectUxoAndUpdateProvider(context, User user) async {
     // todo: добавить изменения в правом details баре
   }
 
@@ -82,7 +74,6 @@ class UserItemFeatures {
   /// Отметить заблокированным
   static void markAsBlocked(User item) async {
     // ...
-    
   }
 
   /// Разблокировать
