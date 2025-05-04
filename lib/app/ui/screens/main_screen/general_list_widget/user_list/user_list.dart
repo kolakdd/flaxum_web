@@ -5,8 +5,11 @@ import 'package:flaxum_fileshare/app/network/objects/fetch.dart';
 import 'package:flaxum_fileshare/app/network/users/fetch.dart';
 import 'package:flaxum_fileshare/app/ui/screens/main_screen/general_list_widget/user_list/user_item/entity.dart';
 import 'package:flaxum_fileshare/app/utils/string_ext.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:flutter/services.dart';
 
 import 'package:flaxum_fileshare/app/models/system_position.dart';
 
@@ -224,12 +227,91 @@ void _showRegisterUserDialog(BuildContext context) async {
                               onPressed: () async {
                                 String email = userEmailController.text;
                                 if (email.isNotEmpty) {
-                                  await createUser(
-                                      context,
-                                      AdminCreateUser(email,
-                                          enumToString(role!).toCapitalized));
+                                  AdminCreateUserResponse newUser =
+                                      await createUser(
+                                          context,
+                                          AdminCreateUser(
+                                              email,
+                                              enumToString(role!)
+                                                  .toCapitalized));
+                                  Navigator.of(context).pop();
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(actions: <Widget>[
+                                          SizedBox(
+                                            width: 400,
+                                            child: Column(
+                                              children: [
+                                                const SizedBox(
+                                                  height: 12,
+                                                ),
+                                                const Text(
+                                                    "Временный пароль для нового пользователя"),
+                                                const SizedBox(
+                                                  height: 12,
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Container(
+                                                  height: 2,
+                                                  color: Colors.black,
+                                                ),
+                                                const SizedBox(
+                                                  height: 15,
+                                                ),
+                                                Text("Email: ${newUser.email}"),
+                                                const SizedBox(
+                                                  height: 15,
+                                                ),
+                                                Text(
+                                                    "Password: ${newUser.password}"),
+                                                const SizedBox(
+                                                  height: 15,
+                                                ),
+                                                RichText(
+                                                  text: TextSpan(
+                                                    style: DefaultTextStyle.of(
+                                                            context)
+                                                        .style,
+                                                    children: <TextSpan>[
+                                                      TextSpan(
+                                                          style: const TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .underline),
+                                                          text:
+                                                              'Нажмите, что бы скопировать',
+                                                          recognizer:
+                                                              TapGestureRecognizer()
+                                                                ..onTap = () =>
+                                                                    Clipboard.setData(ClipboardData(
+                                                                            text:
+                                                                                "${newUser.email} ${newUser.password}"))
+                                                                        .then(
+                                                                            (_) {
+                                                                      ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                              SnackBar(content: Text("Email address copied to clipboard")));
+                                                                    })),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 15,
+                                                ),
+                                                const Divider(
+                                                  height: 10,
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ]);
+                                      });
                                 }
-                                Navigator.of(context).pop();
                               },
                               child: const Text("Ок",
                                   textAlign: TextAlign.center,
@@ -270,7 +352,8 @@ void _showRegisterUserDialog(BuildContext context) async {
   );
 }
 
-createUser(BuildContext context, AdminCreateUser dto) async {
+Future<AdminCreateUserResponse> createUser(
+    BuildContext context, AdminCreateUser dto) async {
   final response = await dioUnauthorized.post('/admin/user/register',
       data: {
         "email": dto.email,
@@ -280,7 +363,8 @@ createUser(BuildContext context, AdminCreateUser dto) async {
         "authorization": "Bearer ${getTokenFromCookie()}",
       }));
   if (response.statusCode == 200) {
-    final _ = AdminCreateUserResponse.fromJson(response.data);
+    final newUserData = AdminCreateUserResponse.fromJson(response.data);
+    return newUserData;
   } else if (response.statusCode == 401) {
     Navigator.of(context).pushReplacementNamed('/auth');
     throw Exception('Unauthorized');
