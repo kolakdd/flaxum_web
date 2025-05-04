@@ -84,7 +84,7 @@ class _UserItemWidgetState extends State<UserItemWidget> {
                       style: utils.styleTextUtil.commonTextStyle(),
                     )),
                 //
-                const SizedBox(width: 12),
+                const Spacer(flex: 1),
                 SizedBox(
                     width: 84,
                     child: Text(
@@ -92,7 +92,7 @@ class _UserItemWidgetState extends State<UserItemWidget> {
                       style: utils.styleTextUtil.commonTextStyle(),
                     )),
                 //
-                const SizedBox(width: 12),
+                const Spacer(flex: 1),
                 SizedBox(
                     width: 84,
                     child: Text(
@@ -100,7 +100,7 @@ class _UserItemWidgetState extends State<UserItemWidget> {
                       style: utils.styleTextUtil.commonTextStyle(),
                     )),
                 //
-                const SizedBox(width: 12),
+                const Spacer(flex: 1),
                 SizedBox(
                     width: 84,
                     child: Text(
@@ -108,6 +108,7 @@ class _UserItemWidgetState extends State<UserItemWidget> {
                       style: utils.styleTextUtil.commonTextStyle(),
                     )),
                 //
+                const Spacer(flex: 1),
 
                 const SizedBox(width: 12),
                 SizedBox(
@@ -117,12 +118,15 @@ class _UserItemWidgetState extends State<UserItemWidget> {
                       style: utils.styleTextUtil.commonTextStyle(),
                     )),
                 //
-                const SizedBox(width: 12),
+                const Spacer(flex: 1),
+
                 SizedBox(
-                  width: 96,
+                  width: 84,
                   child: Text(item.isDeleted.toString(),
                       style: utils.styleTextUtil.commonTextStyle()),
                 ),
+                const Spacer(flex: 1),
+
                 // размер хранилища
                 SizedBox(
                   width: 84,
@@ -133,7 +137,7 @@ class _UserItemWidgetState extends State<UserItemWidget> {
                       style: utils.styleTextUtil.commonTextStyle(),
                       overflow: TextOverflow.ellipsis),
                 ),
-                const SizedBox(width: 12),
+                const Spacer(flex: 1),
                 // дата создания файла
                 SizedBox(
                   width: 84,
@@ -141,13 +145,15 @@ class _UserItemWidgetState extends State<UserItemWidget> {
                       style: utils.styleTextUtil.commonTextStyle(),
                       overflow: TextOverflow.ellipsis),
                 ),
-                const Spacer(flex: 1),
-
-                GestureDetector(
-                  onTapDown: (details) => mouseClickLogic.onSecondaryTapDown(
-                      context, details, item),
-                  child: const Icon(Icons.more_vert),
+                SizedBox(
+                  width: 24,
+                  child: GestureDetector(
+                    onTapDown: (details) => mouseClickLogic.onSecondaryTapDown(
+                        context, details, item),
+                    child: const Icon(Icons.more_vert),
+                  ),
                 ),
+
                 const SizedBox(width: 12),
               ],
             ),
