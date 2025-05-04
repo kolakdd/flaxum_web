@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flaxum_fileshare/app/models/user/user.dart';
+import 'package:flaxum_fileshare/app/network/dio_client.dart';
 import 'package:flaxum_fileshare/app/network/objects/fetch.dart';
 import 'package:flaxum_fileshare/app/network/users/fetch.dart';
 import 'package:flaxum_fileshare/app/ui/screens/main_screen/general_list_widget/user_list/user_item/entity.dart';
+import 'package:flaxum_fileshare/app/utils/string_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -64,9 +67,17 @@ class _UserListState extends State<UserList> {
 
     return Column(
       children: [
+        SizedBox(
+            width: 256,
+            child: Row(children: [
+              MaterialButton(
+                onPressed: () async => UserScopeFeatures.createNewUser(context),
+                child: const Text("Добавить пользователя."),
+              )
+            ])),
         itemHeaderUsers(),
         if (objectList.isEmpty)
-          const Center(child: Text("Здесь нет файлов."))
+          const Center(child: Text("Нет пользователей."))
         else
           Expanded(
             child: ListView.builder(
@@ -85,6 +96,7 @@ class _UserListState extends State<UserList> {
     );
   }
 
+// ------------- шапка юзер скоупа --------------------
   Widget itemHeaderUsers() {
     return const Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -107,5 +119,172 @@ class _UserListState extends State<UserList> {
         SizedBox(width: 84, child: Text("Дата создания")),
       ],
     );
+  }
+}
+
+/// Активности в скоупе юзеров
+class UserScopeFeatures {
+  /// Создать нового пользователя
+  static void createNewUser(context) async {
+    _showRegisterUserDialog(context);
+  }
+}
+
+enum UserRoles { user, admin }
+
+String enumToString(Enum inp) {
+  return inp.name;
+}
+
+void _showRegisterUserDialog(BuildContext context) async {
+  final TextEditingController userEmailController = TextEditingController();
+  UserRoles? role = UserRoles.user;
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        // StatefulBuilder
+        builder: (context, setState) {
+          return AlertDialog(
+            actions: <Widget>[
+              SizedBox(
+                  width: 400,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      const Text("Создать пользователя"),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      const SizedBox(height: 5),
+                      Container(
+                        height: 2,
+                        color: Colors.black,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextField(
+                        controller: userEmailController,
+                        decoration: const InputDecoration(hintText: "Email"),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      // ------------- RadioButton -----------
+                      Column(
+                        children: [
+                          ListTile(
+                            title: const Text('Пользователь'),
+                            leading: Radio<UserRoles>(
+                              value: UserRoles.user,
+                              groupValue: role,
+                              onChanged: (UserRoles? value) {
+                                setState(() {
+                                  role = value;
+                                });
+                              },
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text('Администратор'),
+                            leading: Radio<UserRoles>(
+                              value: UserRoles.admin,
+                              groupValue: role,
+                              onChanged: (UserRoles? value) {
+                                setState(() {
+                                  role = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                      // ----------------------------------
+                      ,
+                      const Divider(
+                        height: 10,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Material(
+                            elevation: 5.0,
+                            color: Colors.blue[900],
+                            child: MaterialButton(
+                              padding: const EdgeInsets.fromLTRB(
+                                  10.0, 5.0, 10.0, 5.0),
+                              onPressed: () async {
+                                String email = userEmailController.text;
+                                if (email.isNotEmpty) {
+                                  await createUser(
+                                      context,
+                                      AdminCreateUser(email,
+                                          enumToString(role!).toCapitalized));
+                                }
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text("Ок",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                  )),
+                            ),
+                          ),
+                          Material(
+                            elevation: 5.0,
+                            color: Colors.blue[900],
+                            child: MaterialButton(
+                              padding: const EdgeInsets.fromLTRB(
+                                  10.0, 5.0, 10.0, 5.0),
+                              onPressed: () {
+                                setState(() {
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                              child: const Text("Отмена",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                  )),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ))
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
+createUser(BuildContext context, AdminCreateUser dto) async {
+  final response = await dioUnauthorized.post('/admin/user/register',
+      data: {
+        "email": dto.email,
+        "role": dto.roleType,
+      },
+      options: Options(contentType: "application/json", headers: {
+        "authorization": "Bearer ${getTokenFromCookie()}",
+      }));
+  if (response.statusCode == 200) {
+    final _ = AdminCreateUserResponse.fromJson(response.data);
+  } else if (response.statusCode == 401) {
+    Navigator.of(context).pushReplacementNamed('/auth');
+    throw Exception('Unauthorized');
+  } else {
+    throw Exception('Failed to load objects');
   }
 }

@@ -79,18 +79,34 @@ class RegisterUser {
   );
 }
 
+// --------------------------------------- admin create user
 @JsonSerializable()
-class RegisterUserRequest {
-  final dynamic data;
-  final String status;
+class AdminCreateUser {
+  final String email;
+  final String roleType;
 
-  RegisterUserRequest(this.data, this.status);
+  AdminCreateUser(this.email, this.roleType);
 
-  factory RegisterUserRequest.fromJson(Map<String, dynamic> json) =>
-      _$RegisterUserRequestFromJson(json);
+  factory AdminCreateUser.fromJson(Map<String, dynamic> json) =>
+      _$AdminCreateUserFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RegisterUserRequestToJson(this);
+  Map<String, dynamic> toJson() => _$AdminCreateUserToJson(this);
 }
+
+@JsonSerializable()
+class AdminCreateUserResponse {
+  final String email;
+  final String password;
+  final String createdAt;
+
+  AdminCreateUserResponse(this.email, this.password, this.createdAt);
+
+  factory AdminCreateUserResponse.fromJson(Map<String, dynamic> json) =>
+      _$AdminCreateUserResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AdminCreateUserResponseToJson(this);
+}
+// |||||||||||||||||||||||||||||||||||||||
 
 @JsonSerializable()
 class GetUsersResponse {

@@ -65,17 +65,32 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
-RegisterUserRequest _$RegisterUserRequestFromJson(Map<String, dynamic> json) =>
-    RegisterUserRequest(
-      json['data'],
-      json['status'] as String,
+AdminCreateUser _$AdminCreateUserFromJson(Map<String, dynamic> json) =>
+    AdminCreateUser(
+      json['email'] as String,
+      json['roleType'] as String,
     );
 
-Map<String, dynamic> _$RegisterUserRequestToJson(
-        RegisterUserRequest instance) =>
+Map<String, dynamic> _$AdminCreateUserToJson(AdminCreateUser instance) =>
     <String, dynamic>{
-      'data': instance.data,
-      'status': instance.status,
+      'email': instance.email,
+      'roleType': instance.roleType,
+    };
+
+AdminCreateUserResponse _$AdminCreateUserResponseFromJson(
+        Map<String, dynamic> json) =>
+    AdminCreateUserResponse(
+      json['email'] as String,
+      json['password'] as String,
+      json['createdAt'] as String,
+    );
+
+Map<String, dynamic> _$AdminCreateUserResponseToJson(
+        AdminCreateUserResponse instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+      'password': instance.password,
+      'createdAt': instance.createdAt,
     };
 
 GetUsersResponse _$GetUsersResponseFromJson(Map<String, dynamic> json) =>
