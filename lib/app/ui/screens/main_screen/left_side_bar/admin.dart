@@ -38,3 +38,34 @@ Widget adminListUsers(BuildContext context) {
     },
   );
 }
+
+Widget adminListRobots(BuildContext context) {
+  return ListTile(
+    title: const Text('Управление роботами'),
+    onTap: () async {
+      PositionProvider posProvider =
+          Provider.of<PositionProvider>(context, listen: false);
+      UxoProvider uxoProvider =
+          Provider.of<UxoProvider>(context, listen: false);
+      uxoProvider.dropData();
+      posProvider.dropScope();
+
+      await getUsersList(context);
+    },
+  );
+}
+
+Widget adminListRobotObjects(BuildContext context) {
+  return ListTile(
+    title: const Text('Управление файлами роботов'),
+    onTap: () async {
+      PositionProvider posProvider =
+          Provider.of<PositionProvider>(context, listen: false);
+      UxoProvider uxoProvider =
+          Provider.of<UxoProvider>(context, listen: false);
+      uxoProvider.dropData();
+      posProvider.dropScope();
+      await getAdminObjecs(context);
+    },
+  );
+}

@@ -42,6 +42,8 @@ class LeftSidebar extends StatelessWidget {
       const SizedBox(height: 12),
       adminListObjects(context),
       adminListUsers(context),
+      adminListRobots(context),
+      adminListRobotObjects(context)
     ]);
   }
 }
